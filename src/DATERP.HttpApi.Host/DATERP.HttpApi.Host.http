@@ -1,0 +1,6 @@
+@DATERP.HttpApi.Host_HostAddress = http://localhost:5140
+
+GET {{DATERP.HttpApi.Host_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

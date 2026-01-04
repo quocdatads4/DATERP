@@ -1,0 +1,18 @@
+2026-01-04 14:04:26.885 +07:00 [FTL] Host terminated unexpectedly!
+System.ApplicationException: The permission named 'AbpIdentity.UserLookup' has not compatible with the provider named 'R'
+   at Volo.Abp.PermissionManagement.PermissionManager.SetAsync(String permissionName, String providerName, String providerKey, Boolean isGranted)
+   at DATERP.Data.DATERPDataSeedContributor.SeedPermissionsAsync() in C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain\Data\DATERPDataSeedContributor.cs:line 88
+   at DATERP.Data.DATERPDataSeedContributor.SeedAsync(DataSeedContext context) in C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain\Data\DATERPDataSeedContributor.cs:line 47
+   at Volo.Abp.Data.DataSeeder.SeedAsync(DataSeedContext context)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at DATERP.DbMigrator.DbMigratorHostedService.StartAsync(CancellationToken cancellationToken) in C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.DbMigrator\DbMigratorHostedService.cs:line 49
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>g__LogAndRethrow|14_3(<>c__DisplayClass14_0&)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at DATERP.DbMigrator.Program.Main(String[] args) in C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.DbMigrator\Program.cs:line 33

@@ -1,0 +1,13 @@
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\bin\Debug\net9.0\DATERP.Domain.Shared.deps.json
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\bin\Debug\net9.0\DATERP.Domain.Shared.dll
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\bin\Debug\net9.0\DATERP.Domain.Shared.pdb
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\obj\Debug\net9.0\DATERP.Domain.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\obj\Debug\net9.0\DATERP.Domain.Shared.AssemblyInfoInputs.cache
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\obj\Debug\net9.0\DATERP.Domain.Shared.AssemblyInfo.cs
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\obj\Debug\net9.0\DATERP.Domain.Shared.csproj.CoreCompileInputs.cache
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\obj\Debug\net9.0\DATERP.Domain.Shared.sourcelink.json
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\obj\Debug\net9.0\DATERP.Domain.Shared.dll
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\obj\Debug\net9.0\refint\DATERP.Domain.Shared.dll
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\obj\Debug\net9.0\DATERP.Domain.Shared.pdb
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\obj\Debug\net9.0\ref\DATERP.Domain.Shared.dll
+C:\Users\QuocDat-PC\Documents\GitHub\DATERP\src\DATERP.Domain.Shared\obj\Debug\net9.0\DATERP.Domain.Shared.csproj.AssemblyReference.cache

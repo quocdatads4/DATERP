@@ -1,0 +1,13 @@
+/src/DATERP.DbMigrator/bin
+/src/DATERP.DbMigrator/obj
+/src/DATERP.EntityFrameworkCore/bin
+/src/DATERP.EntityFrameworkCore/obj
+/src/DATERP.HttpApi/bin
+/src/DATERP.Web/bin
+/src/DATERP.Web/node_modules
+/src/DATERP.Web/obj
+/src/DATERP.Application.Contracts/obj
+/src/DATERP.Application/bin
+/src/DATERP.Application/obj
+/src/DATERP.Domain.Shared/bin
+/src/DATERP.HttpApi/obj
