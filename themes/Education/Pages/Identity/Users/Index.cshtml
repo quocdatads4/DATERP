@@ -1,0 +1,125 @@
+@page
+@using Microsoft.AspNetCore.Authorization
+@using Volo.Abp.Identity
+@using Volo.Abp.Identity.Web.Pages.Identity.Users
+@using Volo.Abp.Identity.Web.Navigation
+@using Volo.Abp.Identity.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@inherits Volo.Abp.AspNetCore.Mvc.UI.RazorPages.AbpPage
+@model Education.Pages.Identity.Users.IndexModel
+@inject IHtmlLocalizer<IdentityResource> L
+@inject IAuthorizationService AuthorizationService
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.Title = "Quản lý người dùng";
+    PageLayout.Content.MenuItemName = IdentityMenuNames.Users;
+}
+
+@section styles {
+    <link rel="stylesheet" href="/themes/education/css/identity/users/index.css" />
+}
+
+@section scripts {
+    <script src="/client-proxies/identity-proxy.js"></script>
+    <script src="/themes/education/js/identity/users/index.js"></script>
+}
+
+@* Thẻ thống kê *@
+<div class="row mb-4">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-stat-primary">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div class="content-left">
+                        <span class="text-white opacity-75">Tổng số người dùng</span>
+                        <div class="d-flex align-items-center my-1">
+                            <h4 class="mb-0 me-2 text-white">@Model.TotalUsers</h4>
+                        </div>
+                    </div>
+                    <div class="avatar">
+                        <span class="avatar-initial rounded">
+                            <i class="ti ti-users"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-stat-success">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div class="content-left">
+                        <span class="text-white opacity-75">Đang hoạt động</span>
+                        <div class="d-flex align-items-center my-1">
+                            <h4 class="mb-0 me-2 text-white">@Model.ActiveUsers</h4>
+                        </div>
+                    </div>
+                    <div class="avatar">
+                        <span class="avatar-initial rounded">
+                            <i class="ti ti-user-check"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-stat-danger">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div class="content-left">
+                        <span class="text-white opacity-75">Ngừng hoạt động</span>
+                        <div class="d-flex align-items-center my-1">
+                            <h4 class="mb-0 me-2 text-white">@Model.InactiveUsers</h4>
+                        </div>
+                    </div>
+                    <div class="avatar">
+                        <span class="avatar-initial rounded">
+                            <i class="ti ti-user-x"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-stat-warning">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div class="content-left">
+                        <span class="text-white opacity-75">Chờ xác nhận</span>
+                        <div class="d-flex align-items-center my-1">
+                            <h4 class="mb-0 me-2 text-white">0</h4>
+                        </div>
+                    </div>
+                    <div class="avatar">
+                        <span class="avatar-initial rounded">
+                            <i class="ti ti-clock"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Bảng danh sách người dùng *@
+<div class="card" id="IdentityUsersWrapper">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Danh sách người dùng</h5>
+        <div class="d-flex align-items-center">
+            <div id="SearchWrapper" class="me-3"></div>
+            @if (await AuthorizationService.IsGrantedAsync(IdentityPermissions.Users.Create))
+            {
+                <button type="button" class="btn btn-primary" id="CreateUserButton" name="CreateUser">
+                    <i class="ti ti-plus me-1"></i> Thêm mới
+                </button>
+            }
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table" id="UsersTable"></table>
+    </div>
+</div>

@@ -6,17 +6,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Account.Application" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.AutoMapper" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.Identity.Application" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="9.0.0" />
+    <PackageReference Include="Volo.Abp.Account.Application" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.Identity.Application" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="10.0.2" />
   </ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>

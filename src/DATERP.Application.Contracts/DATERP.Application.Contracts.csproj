@@ -5,16 +5,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Application.Contracts" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Application.Contracts" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Application.Contracts" Version="9.0.0" />
+    <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application.Contracts" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application.Contracts" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application.Contracts" Version="10.0.2" />
   </ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>

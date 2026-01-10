@@ -2,57 +2,289 @@
 trigger: always_on
 ---
 
-# DATERP - Architectural & Behavioral Rules for Antigravity
+📘 DATERP – ABP INTERNAL GUIDELINES
 
-You are working on **DATERP**, an **ABP-based Modular ERP Platform** designed for Education (Language Centers, IT Centers, Schools) and Enterprise resource planning.
+Architecture · Module Design · Educational Agent Behavior
 
-## 1. Architectural Principles (Non-negotiable)
-- **Architecture**: Strict **ABP Modular Monolith**.
-- **Core System (`src/`)**: Contains ONLY shared infrastructure and host applications. **NO** business logic specific to a module (like specific exam rules or course management) goes here.
-- **Business Modules (`modules/`)**: ALL business logic must be encapsulated in standalone ABP Modules (e.g., `modules/Academic`, `modules/LMS`).
-    - Modules must be designed to be potentially separable (microservice-ready) in the future.
-    - Modules interact via **Contracts** (Interfaces/DTOs) and Events, never direct database joining across module distinct contexts unless explicitly architected via Shared Kernel.
-- **Themes (`themes/`)**: UI styling and layout logic belong in Theme Modules. `src/DATERP.Web` is just the host to mount the theme.
+1. Purpose & Scope
 
-## 2. Directory Structure Rules
-- `src/`: **Infrastructure Layer**.
-    - `DATERP.Domain.Shared`: Enums, Consts shared globally (e.g., Roles).
-    - `DATERP.HttpApi.Host`: The main API entry point.
-    - `DATERP.Web`: This is the **Application Shell**. It hosts modules but contains little UI logic itself.
-- `modules/`: **Business Layer**.
-    - `Academic`: Management of Classes, Schedules, Students, Centers.
-    - `LMS`: Courses, Lessons, Enrollments, Progress tracking.
-    - `Examination`: Tests, Questions, Results, Certificates.
-    - `Finance`, `HR`, `CRM`, `Inventory`, `Reporting`: Respective domains.
-- `themes/`: **Presentation Layer**.
-    - `DATERP.Theme.Education`: Main theme for the education platform.
+This document defines the mandatory internal standards for building, extending, and operating DATERP, an ABP-based Modular ERP Platform focused on:
 
-## 3. Technology Stack & Standards
-- **Framework**: .NET 9.0 + ABP Framework (v9.x).
-- **Frontend**: ASP.NET Core MVC (Razor Views) + Standard ABP UI libraries.
-- **Database**: SQL Server (Entity Framework Core).
-- **Identity**: ABP Identity Module (Roles: Admin, Teacher, Student, Staff, Accountant).
+Education systems (Schools, Language Centers, IT Training Centers – IC3, MOS)
 
-## 4. Coding & Implementation Guidelines
-- **Inheritance**: Always inherit from ABP base classes:
-    - `ApplicationService` (App Layer)
-    - `DomainService` (Domain Logic)
-    - `AggregateRoot<Guid>` (Entities)
-    - `AbpModule` (Module Configuration)
-- **Dependency Injection**:
-    - Use `[DependsOn]` attribute for module dependencies.
-    - Use Constructor Injection.
-- **Data Transfer**: Always use DTOs for Application Service input/output. Never expose Entities directly to the API.
-- **Localization**: All user-facing text must be localizable.
-- **Versioning**: Maintain package consistency (currently v9.0.0 due to .NET 9 environment).
+Enterprise Resource Planning (ERP)
 
-## 5. Workflow Trigger
-- If asked to "Add a feature" (e.g., "Add student management"):
-    1.  Identify the correct module (e.g., `modules/Academic`).
-    2.  If the module doesn't exist structurally, initialize it first.
-    3.  Implement implementing Domain -> EF Core -> Application -> Web layers within that module folder.
-    4.  **DO NOT** add it to `src/DATERP.Application`.
+AI-powered Educational Agents (Google Antigravity)
 
-## 6. Agent Behavior
-- **Proactive Check**: Before implementing code, verify which module directory defines the context.
-- **Refactoring**: If you see business logic in `src/`, propose moving it to `modules/`.
+These guidelines apply to:
+
+Backend Developers
+
+Frontend Developers
+
+Business Analysts (BA)
+
+Product Owners
+
+AI / Prompt Engineers
+
+2. Core Architectural Philosophy
+2.1 Architecture Model
+
+ABP Modular Monolith (STRICT)
+
+Module-first design, microservice-ready by default
+
+No accidental coupling between domains is allowed
+
+❗ Any violation of module boundaries is considered a design defect, not a temporary workaround.
+
+3. Layer Responsibilities (Mandatory)
+3.1 src/ – Infrastructure Layer
+
+Purpose: Hosting, shared abstractions, and cross-cutting concerns.
+
+Allowed:
+
+Hosting applications
+
+Shared enums, constants, permissions
+
+Authentication / Authorization
+
+Technical and infrastructure configuration
+
+Forbidden:
+
+Business rules
+
+Educational logic
+
+Examination rules
+
+Course-related logic
+
+Domain-specific workflows
+
+3.2 modules/ – Business Layer (Core Value)
+
+Purpose: All domain logic must reside here.
+
+Each module:
+
+Owns its Domain
+
+Owns its Database Context
+
+Owns its Application Services
+
+Must be independently evolvable
+
+Example modules:
+
+Academic
+
+LMS
+
+Examination
+
+Finance
+
+HR
+
+CRM
+
+Inventory
+
+Reporting
+
+Modules must communicate only via:
+
+DTOs / Interfaces (Contracts)
+
+Domain Events
+
+Shared Kernel (only when explicitly justified)
+
+❌ Direct database joins across modules are strictly forbidden, except for explicitly designed reporting or read-model purposes.
+
+3.3 themes/ – Presentation Layer
+
+Purpose: UI, layout, and branding.
+
+Rules:
+
+UI logic belongs to Theme modules
+
+DATERP.Web acts only as the application shell
+
+No business decisions are allowed in Razor Views
+
+4. Technology & Coding Standards
+4.1 Technology Stack
+
+.NET 9.0
+
+ABP Framework v9.x
+
+ASP.NET Core MVC (Razor)
+
+SQL Server + Entity Framework Core
+
+ABP Identity Module
+
+4.2 Mandatory Base Classes
+
+Always inherit from:
+
+AbpModule
+
+AggregateRoot<Guid>
+
+DomainService
+
+ApplicationService
+
+4.3 Data Exposure Rules
+
+DTOs are mandatory
+
+Entities must NEVER be exposed via APIs
+
+Mapping must be done via AutoMapper or explicit, well-defined manual mapping
+
+4.4 Dependency Injection
+
+Constructor Injection only
+
+Use [DependsOn] to declare module dependencies
+
+5. Feature Development Workflow (SOP)
+
+When implementing any feature:
+
+Identify the correct Business Module
+
+If the module does not exist → create the module structure first
+
+Implement strictly in the following order:
+
+Domain layer
+
+EF Core layer
+
+Application layer
+
+Web/UI layer (inside the module)
+
+Validate that:
+
+No business logic leaks into src/
+
+No cross-module coupling exists
+
+If business logic is found in src/, refactoring must be proposed immediately.
+
+6. Educational Domain Principles (IC3 / MOS)
+6.1 Target Learners
+
+Vietnamese learners:
+
+Grade 6–9
+
+Grade 10–12
+
+College / vocational students
+
+Skill level: Beginner → Intermediate
+
+6.2 Educational ABP Framework
+
+ABP = Adaptive – Beginner-friendly – Practice-first
+
+Adaptive: Difficulty adjusts based on learner interaction
+
+Beginner-friendly: Always explain from fundamentals when necessary
+
+Practice-first: Real-world practice takes precedence over theory
+
+6.3 Examination Orientation
+
+Prioritize real IC3 / MOS exam scenarios
+
+Focus on:
+
+Task-based questions
+
+Common mistakes
+
+Time-saving techniques
+
+7. AI / Agent Behavioral Guidelines (Antigravity)
+7.1 Language & Tone
+
+Vietnamese language only
+
+Simple, clear, and supportive
+
+Avoid academic or intimidating language
+
+Never use judgmental or discouraging expressions
+
+7.2 Teaching Behavior
+
+Step-by-step explanations
+
+Use:
+
+Bullet points
+
+Numbered steps
+
+Office software examples (Word, Excel, PowerPoint)
+
+7.3 Adaptation Rules
+
+If the learner is confused → simplify
+
+If the learner understands → summarize and extend
+
+Light clarification questions are allowed (grade level, learning module)
+
+8. Restrictions & Quality Control
+
+The system MUST NOT:
+
+Assume advanced technical knowledge
+
+Overload learners with excessive theory
+
+Use harsh or discouraging language
+
+Mix unrelated domains within a single module
+
+All PRs and features must be reviewed against:
+
+Module boundary compliance
+
+ABP principles
+
+Educational suitability
+
+9. Final Objective
+
+DATERP exists to:
+
+Deliver a clean, scalable ABP architecture
+
+Enable modular enterprise growth
+
+Support effective education for Vietnamese learners
+
+Improve IC3 / MOS learning outcomes through practice-first design
+
+📌 Internal Rule of Thumb
+
+If it smells like business logic, it belongs in modules/.
+If it smells like UI logic, it belongs in themes/.
+If it smells confusing to students, simplify it.

@@ -1,0 +1,22 @@
+@using Education.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.Ui.Branding
+@inject IBrandingProvider BrandingProvider
+@inject IStringLocalizer<EducationResource> L
+
+<!-- Footer -->
+<footer class="content-footer footer bg-footer-theme">
+    <div class="container-xxl">
+        <div class="footer-container d-flex align-items-center justify-content-between py-2 flex-md-row flex-column">
+            <div>
+                &copy; @DateTime.Now.Year <a href="/" class="footer-link fw-medium">@BrandingProvider.AppName</a>
+            </div>
+            <div class="d-none d-lg-inline-block">
+                <a href="/privacy" class="footer-link me-4">@L["Footer:PrivacyPolicy"]</a>
+                <a href="/terms" class="footer-link me-4">@L["Footer:Terms"]</a>
+                <a href="/help" class="footer-link">@L["Footer:Help"]</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--/ Footer -->

@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../abp-dev"
+		},
+		{
+			"path": "../31.220.84.102"
+		}
+	],
+	"settings": {
+		"powershell.cwd": "DATERP"
+	}
+}

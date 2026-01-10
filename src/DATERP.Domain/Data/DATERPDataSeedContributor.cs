@@ -50,9 +50,9 @@ public class DATERPDataSeedContributor : IDataSeedContributor, ITransientDepende
     private async Task SeedAdminUserAsync()
     {
         const string adminUserName = "admin";
-        const string adminEmail = "admin@abp.io";
-        const string adminPassword = "1q2w3E*";
-        const string adminRoleName = "admin";
+        const string adminEmail = "admin@datacademy.edu.vn";
+        const string adminPassword = "Admin@123";
+        const string adminRoleName = "Administrator";
 
         // Seed Role
         if (await _roleManager.FindByNameAsync(adminRoleName) == null)
@@ -69,7 +69,24 @@ public class DATERPDataSeedContributor : IDataSeedContributor, ITransientDepende
         if (adminUser == null)
         {
             adminUser = new IdentityUser(_guidGenerator.Create(), adminUserName, adminEmail, _currentTenant.Id);
+            adminUser.SetEmailConfirmed(true);
             (await _userManager.CreateAsync(adminUser, adminPassword)).CheckErrors();
+        }
+        else
+        {
+            // Update Email if changed
+            if (!string.Equals(adminUser.Email, adminEmail, StringComparison.OrdinalIgnoreCase))
+            {
+                (await _userManager.SetEmailAsync(adminUser, adminEmail)).CheckErrors();
+                (await _userManager.UpdateAsync(adminUser)).CheckErrors();
+            }
+
+            // Force Reset Password
+            if (await _userManager.HasPasswordAsync(adminUser))
+            {
+                (await _userManager.RemovePasswordAsync(adminUser)).CheckErrors();
+            }
+            (await _userManager.AddPasswordAsync(adminUser, adminPassword)).CheckErrors();
         }
 
         // Assign Role
@@ -90,7 +107,7 @@ public class DATERPDataSeedContributor : IDataSeedContributor, ITransientDepende
                 continue;
             }
 
-            await _permissionManager.SetForRoleAsync("admin", permission.Name, true);
+            await _permissionManager.SetForRoleAsync("Administrator", permission.Name, true);
         }
     }
 }

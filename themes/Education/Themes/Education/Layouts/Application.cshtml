@@ -1,0 +1,125 @@
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Bundling
+@using Volo.Abp.Localization
+@using Volo.Abp.Ui.Branding
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Volo.Abp.AspNetCore.Mvc.UI.Bootstrap
+@addTagHelper *, Volo.Abp.AspNetCore.Mvc.UI.Bundling
+@inject IBrandingProvider BrandingProvider
+@inject IPageLayout PageLayout
+@{
+    // Layout settings
+    string themeStyle = ViewData["ThemeStyle"] as string ?? "light-style";
+    string themeClass = ViewData["ThemeClass"] as string ?? "theme-default";
+    // Horizontal layout specific classes
+    string navbarType = "layout-navbar-fixed";
+    string menuFixed = "layout-menu-fixed";
+    string menuCollapsed = "";
+    string footerFixed = "";
+    string templateType = "horizontal-menu-template";
+
+    // Asset path for Education theme
+    string assetsPath = "/themes/education/";
+
+    // Determine text direction
+    bool isRtl = CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft;
+
+    // Page title
+    var pageTitle = ViewBag.Title == null ? BrandingProvider.AppName : $"{ViewBag.Title} | {BrandingProvider.AppName}";
+}
+
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentCulture.Name" class="@themeStyle @navbarType @menuFixed @menuCollapsed @footerFixed"
+    dir="@(isRtl ? "rtl" : "ltr")" data-theme="@themeClass" data-assets-path="@assetsPath"
+    data-template="@templateType">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>@pageTitle</title>
+    <meta name="description" content="@(ViewBag.Description ?? "DATERP - Education Resource Planning")" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="@(assetsPath)favicon.ico" />
+
+    <!-- ABP Bundled Global Styles -->
+    <abp-style-bundle name="Education.Global.Styles" />
+
+    <!-- Vendor Styles -->
+    @RenderSection("VendorStyles", required: false)
+
+    <!-- Page Styles -->
+    @RenderSection("PageStyles", required: false)
+    @RenderSection("styles", required: false)
+</head>
+
+<body>
+    <!-- Layout Wrapper -->
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+        <div class="layout-container">
+
+            <!-- Navbar -->
+            <partial name="~/Themes/Education/Components/_NavbarHorizontal.cshtml" />
+            <!-- / Navbar -->
+
+            <!-- Layout Page -->
+            <div class="layout-page">
+
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+
+
+
+                    <!-- Content -->
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <!-- Content Toolbar -->
+                        @await RenderSectionAsync("content_toolbar", required: false)
+                        @RenderBody()
+                    </div>
+                    <!-- / Content -->
+
+                    <!-- Footer -->
+                    <partial name="~/Themes/Education/Components/_Footer.cshtml" />
+                    <!-- / Footer -->
+
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!--/ Content wrapper -->
+            </div>
+            <!-- / Layout Page -->
+        </div>
+    </div>
+    <!-- / Layout Wrapper -->
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+
+    <!-- ABP Core Scripts (jQuery, abp.js, etc.) -->
+    <abp-script-bundle name="@StandardBundles.Scripts.Global" />
+
+    <!-- ABP Bundled Global Scripts -->
+    <abp-script-bundle name="Education.Global.Scripts" />
+
+    <!-- Vendor Scripts -->
+    @RenderSection("VendorScripts", required: false)
+
+    <!-- Main JS -->
+    @* Included in Education.Global.Scripts *@
+
+    <!-- Page Scripts -->
+    @RenderSection("PageScripts", required: false)
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

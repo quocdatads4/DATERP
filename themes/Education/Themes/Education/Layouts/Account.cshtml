@@ -1,0 +1,109 @@
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using Volo.Abp.Localization
+@using Volo.Abp.Ui.Branding
+@using System.Globalization
+@using Education.Localization
+@using Microsoft.Extensions.Localization
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Volo.Abp.AspNetCore.Mvc.UI.Bootstrap
+@addTagHelper *, Volo.Abp.AspNetCore.Mvc.UI.Bundling
+@inject IBrandingProvider BrandingProvider
+@inject IStringLocalizer<EducationResource> L
+@{
+    Layout = null;
+    string assetsPath = "/themes/education/";
+    bool isRtl = CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft;
+    var pageTitle = ViewBag.Title == null ? BrandingProvider.AppName : $"{ViewBag.Title} | {BrandingProvider.AppName}";
+}
+
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentCulture.Name" class="light-style layout-navbar-fixed layout-menu-fixed"
+    dir="@(isRtl ? "rtl" : "ltr")" data-theme="theme-default" data-assets-path="@assetsPath"
+    data-template="horizontal-menu-template">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>@pageTitle</title>
+    <meta name="description" content="DATAcademy - Education Management System" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="@(assetsPath)favicon.ico" />
+
+    <!-- ABP Bundled Global Styles -->
+    <abp-style-bundle name="Education.Global.Styles" />
+
+    <!-- Account Layout Specific Styles -->
+    <link href="/themes/education/css/account-layout.css" rel="stylesheet" />
+
+    @RenderSection("styles", required: false)
+</head>
+
+<body>
+    <!-- Content -->
+    <div class="authentication-wrapper authentication-cover">
+        <!-- Logo -->
+        <a href="/" class="auth-cover-brand">
+            <span class="brand-text">@BrandingProvider.AppName</span>
+        </a>
+        <!--/ Logo -->
+
+        <div class="authentication-inner row m-0">
+            <!-- Left Panel with Cover -->
+            <div class="d-none d-lg-flex col-lg-5 auth-cover-left">
+                <div class="auth-cover-content text-center text-lg-start">
+                    <div class="mb-4 d-inline-block d-lg-none">
+                        <img src="/themes/education/img/logo-datacacademy.svg" alt="DATAcademy"
+                            style="height: 64px; width: auto;">
+                    </div>
+                    <h1>@L["Welcome"]</h1>
+                    <p>@L["Login:Subtitle"]</p>
+
+                    <!-- Education Illustration -->
+                    <partial name="~/Themes/Education/Components/_LoginIllustration.cshtml" />
+
+                    <!-- Glassmorphism Feature Grid -->
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <i class="ti ti-users"></i>
+                            <span>@L["Feature:Management"]</span>
+                        </div>
+                        <div class="feature-card">
+                            <i class="ti ti-chart-bar"></i>
+                            <span>@L["Feature:Reporting"]</span>
+                        </div>
+                        <div class="feature-card">
+                            <i class="ti ti-device-laptop"></i>
+                            <span>@L["Feature:Learning"]</span>
+                        </div>
+                        <div class="feature-card">
+                            <i class="ti ti-shield-check"></i>
+                            <span>@L["Feature:Security"]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Left Panel -->
+
+            <!-- Login Form -->
+            <div class="d-flex col-12 col-lg-7 align-items-center auth-form-container">
+                <div class="auth-form-wrapper">
+                    @RenderBody()
+                </div>
+            </div>
+            <!--/ Login Form -->
+        </div>
+    </div>
+    <!-- / Content -->
+
+    <!-- ABP Bundled Global Scripts -->
+    <abp-script-bundle name="Education.Global.Scripts" />
+
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

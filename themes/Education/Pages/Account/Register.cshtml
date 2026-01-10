@@ -1,0 +1,79 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@model Education.Pages.Account.RegisterModel
+@inject IHtmlLocalizer<AccountResource> L
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@inject IThemeManager ThemeManager
+@{
+    Layout = ThemeManager.CurrentTheme.GetLayout(StandardLayouts.Account);
+}
+
+<div class="abp-account-container">
+    <link href="/themes/education/css/register.css" rel="stylesheet" />
+
+    <div class="account-module-form">
+        <h4 class="mb-2 text-center" style="font-weight: 800; color: var(--edu-primary);">Đăng ký tài khoản <i
+                class="ti ti-user-plus"></i></h4>
+        <p class="text-center text-muted mb-4">Tạo tài khoản mới để bắt đầu.</p>
+
+        <form method="post" class="mt-4">
+
+            <div class="mb-4">
+                <label class="premium-form-label" asp-for="Input.UserName">
+                    <i class="ti ti-user"></i> Tên đăng nhập
+                </label>
+                <div class="premium-input-group">
+                    <span class="premium-input-icon"><i class="ti ti-user"></i></span>
+                    <input asp-for="Input.UserName" class="premium-input" placeholder="Chọn tên đăng nhập"
+                        autocomplete="username" autofocus />
+                </div>
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label class="premium-form-label" asp-for="Input.EmailAddress">
+                    <i class="ti ti-mail"></i> Email
+                </label>
+                <div class="premium-input-group">
+                    <span class="premium-input-icon"><i class="ti ti-mail"></i></span>
+                    <input asp-for="Input.EmailAddress" class="premium-input" placeholder="user@example.com"
+                        autocomplete="email" />
+                </div>
+                <span asp-validation-for="Input.EmailAddress" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label class="premium-form-label" asp-for="Input.Password">
+                    <i class="ti ti-lock"></i> Mật khẩu
+                </label>
+                <div class="premium-input-group" id="passwordGroup">
+                    <span class="premium-input-icon"><i class="ti ti-key"></i></span>
+                    <input asp-for="Input.Password" class="premium-input" type="password" placeholder="Nhập mật khẩu"
+                        autocomplete="new-password" id="passwordInput" />
+                    <button type="button" class="premium-input-action" aria-label="Toggle password visibility">
+                        <i class="ti ti-eye-off" id="passwordToggleIcon"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="d-grid gap-2 mt-5">
+                <button type="submit" class="btn btn-primary premium-btn d-grid w-100" name="Action" value="Register">
+                    <span class="d-flex align-items-center justify-content-center gap-2">
+                        Đăng ký ngay <i class="ti ti-arrow-right"></i>
+                    </span>
+                </button>
+            </div>
+
+            <div class="alert alert-info text-center mt-4 border-0 bg-transparent" role="alert">
+                Đã có tài khoản? <a
+                    href="@Url.Page("./Login", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash })"
+                    class="premium-link fw-bold">Đăng nhập ngay</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script src="/themes/education/js/register.js"></script>

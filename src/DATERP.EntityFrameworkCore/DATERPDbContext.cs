@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
+using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
@@ -15,11 +16,13 @@ using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace DATERP.EntityFrameworkCore;
 
+[ReplaceDbContext(typeof(IBackgroundJobsDbContext))]
 [ConnectionStringName("Default")]
 public class DATERPDbContext :
-    AbpDbContext<DATERPDbContext>,
-    IIdentityDbContext,
-    ITenantManagementDbContext
+        AbpDbContext<DATERPDbContext>,
+        IIdentityDbContext,
+        ITenantManagementDbContext,
+        IBackgroundJobsDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
@@ -49,6 +52,9 @@ public class DATERPDbContext :
     // Tenant Management
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
+
+    // Background Jobs
+    public DbSet<BackgroundJobRecord> BackgroundJobs { get; set; }
 
     #endregion
 

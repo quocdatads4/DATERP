@@ -1,0 +1,31 @@
+services:
+  daterp.web:
+    build: .
+    image: daterp-web
+    container_name: daterp_web
+    restart: always
+    ports:
+      - "80:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      # Override connection string here if you want to use the dockerized DB below
+      # Or keep using your external DB by updating this value or removing this override to use appsettings.json
+      - ConnectionStrings__Default=Host=db;Port=5432;Database=daterp;Username=postgres;Password=your_secure_password
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: daterp_db
+    restart: always
+    environment:
+      POSTGRES_DB: daterp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your_secure_password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  db_data:

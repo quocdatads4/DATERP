@@ -1,0 +1,321 @@
+/* Account Layout Styles */
+/* Note: Color variables are defined in site.css */
+
+.authentication-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+}
+
+.authentication-wrapper .authentication-inner {
+    width: 100%;
+}
+
+.auth-cover-brand {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.auth-cover-brand .brand-logo {
+    width: 48px;
+    height: 48px;
+}
+
+.auth-cover-brand .brand-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--edu-white, #ffffff);
+}
+
+.auth-cover-left {
+    background: linear-gradient(135deg, var(--edu-primary) 0%, var(--edu-primary-dark) 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 3rem;
+}
+
+.auth-cover-left::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 193, 7, 0.1) 0%, transparent 70%);
+    z-index: 0;
+}
+
+.auth-cover-left::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    z-index: 0;
+}
+
+.auth-cover-content {
+    position: relative;
+    z-index: 1;
+    color: var(--edu-white, #ffffff);
+    max-width: 450px;
+    /* Reduced width */
+}
+
+.auth-cover-content h1 {
+    font-size: 1.5rem;
+    /* Smaller h1 */
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--edu-white, #ffffff);
+    line-height: 1.2;
+}
+
+.auth-cover-content .highlight {
+    color: var(--edu-accent, #FACC15);
+    /* Updated to accent */
+    display: block;
+    font-size: 2.25rem;
+    /* Smaller highlight */
+    font-weight: 800;
+    margin-top: 0.25rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.5px;
+}
+
+.auth-cover-content p {
+    font-size: 0.9rem;
+    /* Smaller p */
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+.education-illustration {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.education-illustration svg {
+    width: 100%;
+    max-width: 280px;
+    /* Smaller illustration */
+    height: auto;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    /* Smaller gap */
+    margin-top: 1.5rem;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    /* Smaller padding */
+    text-align: left;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.feature-card:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-color: var(--edu-accent, #FACC15);
+}
+
+.feature-card i {
+    color: var(--edu-accent, #FACC15);
+    font-size: 1.2rem;
+    /* Smaller icon */
+    background: rgba(255, 193, 7, 0.1);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+}
+
+.feature-card span {
+    font-weight: 600;
+    font-size: 0.8rem;
+    /* Smaller text */
+    color: var(--edu-white, #ffffff);
+    line-height: 1.2;
+}
+
+.auth-form-container {
+    background: var(--edu-white, #ffffff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
+.auth-form-wrapper {
+    width: 100%;
+    max-width: 550px;
+}
+
+.auth-form-wrapper h4 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--edu-primary);
+    margin-bottom: 0.5rem;
+}
+
+.auth-form-wrapper .card {
+    border: none;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    background: #fff;
+}
+
+.auth-form-wrapper .card-body {
+    padding: 3rem !important;
+}
+
+.auth-form-wrapper .form-control {
+    border-radius: 0.75rem;
+    padding: 0.8rem 1.2rem;
+    border: 2px solid #f1f1f1;
+    background-color: #fcfcfc;
+    font-size: 0.95rem;
+    /* Only animate color properties to avoid layout shifts (shrinking effect) */
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-form-wrapper .form-control:focus {
+    border-color: var(--edu-primary);
+    /* Soft shadow that matches primary color */
+    box-shadow: 0 0 0 0.25rem rgba(0, 51, 102, 0.15);
+    background-color: #fff;
+    outline: none;
+}
+
+/* Fix for Input Group Merge: Ensure borders blend correctly */
+.input-group-merge .form-control:focus {
+    border-color: var(--edu-primary);
+    box-shadow: none;
+    /* Let the input-group wrapper handle shadow if needed, or keep it subtle */
+}
+
+/* Add a specific rule for the input group wrapper to show focus state if desired, 
+   or simply allow the input to glow but ensure it doesn't shift */
+.input-group-merge:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(0, 51, 102, 0.15);
+    border-radius: 0.75rem;
+}
+
+.input-group-merge:focus-within .form-control,
+.input-group-merge:focus-within .input-group-text {
+    border-color: var(--edu-primary) !important;
+}
+
+.input-group-merge:focus-within .form-control:focus {
+    box-shadow: none;
+    /* Remove double shadow */
+}
+
+/* Target ABP standard buttons */
+.auth-form-wrapper .btn-primary,
+.auth-form-wrapper .btn-lg {
+    background: linear-gradient(135deg, var(--edu-primary) 0%, var(--edu-primary-dark) 100%);
+    border: none;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    color: var(--edu-white, #ffffff);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+    /* Updated color rgba */
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.auth-form-wrapper .btn-primary:hover,
+.auth-form-wrapper .btn-lg:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+    /* Updated color rgba */
+    background: linear-gradient(135deg, var(--edu-primary-dark) 0%, var(--edu-primary) 100%);
+}
+
+.auth-form-wrapper .form-check-input:checked {
+    background-color: var(--edu-primary);
+    border-color: var(--edu-primary);
+}
+
+.auth-form-wrapper a {
+    color: var(--edu-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.auth-form-wrapper a:hover {
+    color: var(--edu-accent, #FACC15);
+}
+
+@media (max-width: 991.98px) {
+    .auth-cover-left {
+        display: none;
+    }
+
+    .auth-form-container {
+        min-height: 100vh;
+    }
+
+    .auth-cover-brand {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 2rem;
+        justify-content: center;
+    }
+
+    .auth-cover-brand .brand-text {
+        color: var(--edu-primary);
+    }
+}

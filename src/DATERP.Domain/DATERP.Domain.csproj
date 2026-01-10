@@ -5,18 +5,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AuditLogging.Domain" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.Domain" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Domain" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.Identity.Domain" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.BackgroundJobs.Domain" Version="9.0.0" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Domain" Version="9.0.0" />
+    <PackageReference Include="Volo.Abp.AuditLogging.Domain" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Domain" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.Identity.Domain" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.Domain" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Domain" Version="10.0.2" />
   </ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>

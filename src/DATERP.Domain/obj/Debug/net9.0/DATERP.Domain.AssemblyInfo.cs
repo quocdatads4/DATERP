@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DATERP.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ed42b3e56d482f4edc145a6a67d90a3fe7628a7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e17bd6d589a0581084e451e9830e5657d052aa6f")]
 [assembly: System.Reflection.AssemblyProductAttribute("DATERP.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DATERP.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

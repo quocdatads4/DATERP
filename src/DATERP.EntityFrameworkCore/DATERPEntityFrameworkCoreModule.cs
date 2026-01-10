@@ -36,8 +36,6 @@ public class DATERPEntityFrameworkCoreModule : AbpModule
 
         Configure<AbpDbContextOptions>(options =>
         {
-            /* The main point to change your DBMS.
-             * See also DATERPMigrationsDbContextFactory for EF Core tooling. */
             options.UseNpgsql();
         });
     }

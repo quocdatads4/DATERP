@@ -47,6 +47,7 @@ class Program
             .ConfigureAppConfiguration(build =>
             {
                 build.AddJsonFile("appsettings.json", optional: true);
+                build.AddEnvironmentVariables();
             })
             .ConfigureLogging((context, logging) => logging.ClearProviders())
             .ConfigureServices((hostContext, services) =>

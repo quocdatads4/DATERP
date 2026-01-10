@@ -1,0 +1,71 @@
+/* Custom styles goes here */
+:root {
+    /* Blue Learning - Tri thức, tin cậy */
+    --edu-primary: #003366;
+    --edu-primary-dark: #002244;
+
+    /* Growth Green - Tiến bộ, phát triển */
+    --edu-secondary: #22C55E;
+    --edu-secondary-dark: #16A34A;
+
+    /* Motivation Yellow - Động lực */
+    --edu-accent: #FACC15;
+    --edu-accent-dark: #F59E0B;
+
+    /* Warning - Cảnh báo nhẹ */
+    --edu-warning: #EF4444;
+
+    /* Background - Giảm mỏi mắt */
+    --edu-bg: #F9FAFB;
+    --edu-bg-dark: #F3F4F6;
+}
+
+body {
+    background-color: var(--edu-bg);
+}
+
+/* Override Bootstrap Colors if needed or create custom classes */
+.text-primary {
+    color: var(--edu-primary) !important;
+}
+
+.btn-primary {
+    background-color: var(--edu-primary);
+    border-color: var(--edu-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--edu-primary-dark) !important;
+    border-color: var(--edu-primary-dark) !important;
+}
+
+/* Custom Text Utils */
+.text-edu-primary {
+    color: var(--edu-primary) !important;
+}
+
+.text-edu-secondary {
+    color: var(--edu-secondary) !important;
+}
+
+.text-edu-accent {
+    color: var(--edu-accent) !important;
+}
+
+/* Custom Menu Item Styles */
+#MenuItem_DATERP_Home {
+    min-width: 190px !important;
+    /* Make it wider */
+    text-align: center;
+    font-weight: 600;
+    /* Make it distinct */
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+
+    /* Flexbox for alignment */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}

@@ -1,0 +1,252 @@
+/* Login Page Specific Styles */
+
+/* ===== CSS Variables ===== */
+:root {
+    --input-height: 52px;
+    --input-border-radius: 12px;
+    --input-bg: #f8fafc;
+    --input-border: #e2e8f0;
+    --input-focus-border: #696cff;
+    --input-focus-shadow: rgba(105, 108, 255, 0.15);
+    --input-icon-color: #94a3b8;
+    --input-icon-focus: #696cff;
+    --transition-speed: 0.3s;
+}
+
+/* Header text color handled by utility classes or override here if needed */
+.account-module-form h4 {
+    color: var(--edu-primary);
+}
+
+/* ===== Premium Input Wrapper ===== */
+.premium-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* ===== Premium Input Group ===== */
+.premium-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: var(--input-height);
+    background: var(--input-bg);
+    border: 2px solid var(--input-border);
+    border-radius: var(--input-border-radius);
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.premium-input-group:hover {
+    border-color: #cbd5e1;
+    background: #fff;
+}
+
+.premium-input-group:focus-within {
+    border-color: var(--input-focus-border);
+    background: #fff;
+    box-shadow: 0 0 0 4px var(--input-focus-shadow),
+                0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Input Icon ===== */
+.premium-input-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 100%;
+    color: var(--input-icon-color);
+    font-size: 1.25rem;
+    transition: all var(--transition-speed) ease;
+    flex-shrink: 0;
+}
+
+.premium-input-group:focus-within .premium-input-icon {
+    color: var(--input-icon-focus);
+    transform: scale(1.1);
+}
+
+/* ===== Input Field ===== */
+.premium-input {
+    flex: 1;
+    height: 100%;
+    padding: 0 16px 0 0;
+    border: none !important;
+    background: transparent !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1e293b;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: all var(--transition-speed) ease;
+}
+
+.premium-input::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.premium-input:focus::placeholder {
+    opacity: 0.5;
+}
+
+/* ===== Input Action Button (Password Toggle) ===== */
+.premium-input-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 100%;
+    color: var(--input-icon-color);
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+}
+
+.premium-input-action:hover {
+    color: var(--input-icon-focus);
+    background: rgba(105, 108, 255, 0.08);
+}
+
+/* ===== Floating Label Style (Alternative) ===== */
+.floating-label-group {
+    position: relative;
+    width: 100%;
+    height: var(--input-height);
+    margin-top: 8px;
+}
+
+.floating-label-group .premium-input-group {
+    height: 100%;
+}
+
+.floating-label {
+    position: absolute;
+    left: 52px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #94a3b8;
+    pointer-events: none;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    padding: 0 4px;
+}
+
+.floating-label-group .premium-input:focus ~ .floating-label,
+.floating-label-group .premium-input:not(:placeholder-shown) ~ .floating-label {
+    top: -8px;
+    left: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--input-focus-border);
+    background: #fff;
+}
+
+/* ===== Form Label Enhancement ===== */
+.premium-form-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+    letter-spacing: 0.02em;
+}
+
+.premium-form-label i {
+    font-size: 1rem;
+    color: var(--input-focus-border);
+}
+
+/* ===== Validation Styles ===== */
+.premium-input-group.is-invalid {
+    border-color: #ef4444 !important;
+}
+
+.premium-input-group.is-invalid:focus-within {
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.text-danger {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: #ef4444;
+}
+
+/* ===== Divider Styles ===== */
+.divider .divider-text {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+}
+
+/* ===== Social Login buttons ===== */
+.social-login {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* ===== Premium Button ===== */
+.premium-btn {
+    height: 52px;
+    border-radius: var(--input-border-radius);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, #696cff 0%, #5a5de8 100%);
+    border: none;
+    box-shadow: 0 4px 14px rgba(105, 108, 255, 0.35);
+}
+
+.premium-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(105, 108, 255, 0.45);
+    background: linear-gradient(135deg, #7b7eff 0%, #696cff 100%);
+}
+
+.premium-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(105, 108, 255, 0.3);
+}
+
+/* ===== Remember Me Checkbox ===== */
+.premium-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.premium-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--input-focus-border);
+    cursor: pointer;
+}
+
+/* ===== Link Styles ===== */
+.premium-link {
+    color: var(--input-focus-border);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all var(--transition-speed) ease;
+}
+
+.premium-link:hover {
+    color: #5a5de8;
+    text-decoration: underline;
+}

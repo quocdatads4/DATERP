@@ -1,71 +1,67 @@
-# DATERP - Architectural & Behavioral Rules for Antigravity
+# DATERP - QUY TẮC & HÀNH VI CỐT LÕI (ANTIGRAVITY)
 
-You are working on **DATERP**, an **ABP-based Modular ERP Platform** designed for Education (Language Centers, IT Centers, Schools) and Enterprise resource planning.
+Bạn đang làm việc trên dự án **DATERP**, một nền tảng **ERP Giáo dục & Doanh nghiệp** dựa trên **ABP Framework**.
 
-## 1. Architectural Principles (Non-negotiable)
-- **Architecture**: Strict **ABP Modular Monolith**.
-- **Core System (`src/`)**: Contains ONLY shared infrastructure and host applications. **NO** business logic specific to a module (like specific exam rules or course management) goes here.
-- **Business Modules (`modules/`)**: ALL business logic must be encapsulated in standalone ABP Modules (e.g., `modules/Academic`, `modules/LMS`).
-    - Modules must be designed to be potentially separable (microservice-ready) in the future.
-    - Modules interact via **Contracts** (Interfaces/DTOs) and Events, never direct database joining across module distinct contexts unless explicitly architected via Shared Kernel.
-- **Themes (`themes/`)**: UI styling and layout logic belong in Theme Modules. `src/DATERP.Web` is just the host to mount the theme.
+## 1. Nguyên Tắc Kiến Trúc (Bắt buộc)
+-   **Kiến trúc**: Tuân thủ tuyệt đối **ABP Modular Monolith**.
+-   **Core System (`src/`)**: Chỉ chứa hạ tầng dùng chung (Hosting, Shared Kernel, Auth). **TUYỆT ĐỐI KHÔNG** chứa logic nghiệp vụ (như quy tắc thi cử, quản lý khóa học) tại đây.
+-   **Business Modules (`modules/`)**: TẤT CẢ logic nghiệp vụ phải nằm trong các Module ABP độc lập (ví dụ: `modules/Academic`, `modules/LMS`).
+    -   Các module phải được thiết kế để có thể tách rời (microservice-ready).
+    -   Giao tiếp giữa các module thông qua **Contracts** (Interfaces/DTOs) và **Events**. Không join bảng database chéo module.
+-   **Themes (`themes/`)**: Logic giao diện (UI) thuộc về Theme Modules. `src/DATERP.Web` chỉ là vỏ (shell) để chạy ứng dụng.
 
-## 2. Directory Structure Rules
-- `src/`: **Infrastructure Layer**.
-    - `DATERP.Domain.Shared`: Enums, Consts shared globally (e.g., Roles).
-    - `DATERP.HttpApi.Host`: The main API entry point.
-    - `DATERP.Web`: This is the **Application Shell**. It hosts modules but contains little UI logic itself.
-- `modules/`: **Business Layer**.
-    - `Academic`: Management of Classes, Schedules, Students, Centers.
-    - `LMS`: Courses, Lessons, Enrollments, Progress tracking.
-    - `Examination`: Tests, Questions, Results, Certificates.
-    - `Finance`, `HR`, `CRM`, `Inventory`, `Reporting`: Respective domains.
-- `themes/`: **Presentation Layer**.
-    - `DATERP.Theme.Education`: Main theme for the education platform.
+## 2. Cấu Trúc Thư Mục
+-   `src/`: **Tầng Hạ Tầng (Infrastructure)**.
+    -   `DATERP.Domain.Shared`: Enums, Hằng số dùng chung toàn cầu.
+    -   `DATERP.HttpApi.Host`: Điểm nhập API chính.
+    -   `DATERP.Web`: Ứng dụng Web Host (Shell), không chứa logic UI phức tạp.
+-   `modules/`: **Tầng Nghiệp Vụ (Business)**.
+    -   `Academic`: Quản lý Lớp học, Lịch học, Học viên, Trung tâm.
+    -   `LMS`: Khóa học, Bài giảng, Ghi danh, Tiến độ học tập.
+    -   `Examination`: Bài thi, Câu hỏi, Kết quả, Chứng chỉ.
+    -   `Finance`, `HR`, `CRM`, `Inventory`, `Reporting`: Các module nghiệp vụ tương ứng.
+-   `themes/`: **Tầng Giao Diện (Presentation)**.
+    -   `DATERP.Theme.Education`: Theme chính cho giáo dục.
 
-## 3. Technology Stack & Standards
-- **Framework**: .NET 9.0 + ABP Framework (v9.x).
-- **Frontend**: ASP.NET Core MVC (Razor Views) + Standard ABP UI libraries.
-- **Database**: SQL Server (Entity Framework Core).
-- **Identity**: ABP Identity Module (Roles: Admin, Teacher, Student, Staff, Accountant).
+## 3. Công Nghệ & Tiêu Chuẩn
+-   **Framework**: .NET 9.0 + ABP Framework (v9.x).
+-   **Frontend**: ASP.NET Core MVC (Razor Views) + Thư viện UI chuẩn của ABP.
+-   **Database**: SQL Server (Entity Framework Core).
+-   **Identity**: ABP Identity Module (Roles: Admin, Teacher, Student, Staff, Accountant).
 
-## 4. Coding & Implementation Guidelines
+## 4. Hướng Dẫn Lập Trình (Implementation)
 
 ### 4.1. Domain Layer (DDD)
-- **Entities**: MUST inherit from `AggregateRoot<Guid>` or `Entity<Guid>`. Use `FullAuditedAggregateRoot<Guid>` for important business data.
-- **Managers**: Use `DomainService` for complex business logic involving multiple entities.
-- **Constructors**: Always enforce invariants via `protected`/`private` constructors and Static Factory Methods or standard constructors.
-- **Repository Usage**:
-    - Use `IRepository<TEntity, Guid>` for standard CRUD.
-    - Use `IQueryable<TEntity>` (via `GetQueryableAsync`) inside Domain Services or custom repositories for complex queries.
-    - **NEVER** return `IQueryable` from Application Services.
+-   **Entities**: PHẢI kế thừa `AggregateRoot<Guid>` hoặc `Entity<Guid>`.
+-   **Managers**: Sử dụng `DomainService` cho logic nghiệp vụ phức tạp.
+-   **Repository**:
+    -   Dùng `IRepository<TEntity, Guid>` cho CRUD chuẩn.
+    -   Dùng `IQueryable<TEntity>` trong Domain Service hoặc Custom Repository cho query phức tạp.
+    -   **KHÔNG BAO GIỜ** trả về `IQueryable` từ Application Service.
 
 ### 4.2. Application Layer
-- **Services**: Inherit from `ApplicationService`.
-- **DTOs**:
-    - `CreateUpdate...Dto` for writing data.
-    - `...Dto` for reading data.
-    - Use `ObjectMapper` for Entity -> DTO conversion.
-- **Validation**: Use Data Annotations only for simple rules. Use FluentValidation (`AbstractValidator<T>`) for complex rules.
-- **Authorization**: Apply `[Authorize(PermissionNames.MyPermission)]` at the Class or Method level in AppServices.
+-   **Services**: Kế thừa `ApplicationService`.
+-   **DTOs**: Input/Output của API bắt buộc phải là DTO (không dùng Entity).
+    -   Input: `Create...Dto`, `Update...Dto`.
+    -   Output: `...Dto`.
+-   **Validation**: Dùng FluentValidation cho các quy tắc phức tạp.
 
 ### 4.3. Database (EF Core)
-- **Configuration**: Use `IEntityTypeConfiguration<T>` in `DbContextModelCreatingExtensions`.
-- **Migrations**: Always run `dotnet ef migrations add` in `src/DATERP.EntityFrameworkCore` (or module specific EF projects if separated) when Domain changes.
+-   **Migrations**: Luôn chạy `dotnet ef migrations add` trong `src/DATERP.EntityFrameworkCore` (hoặc module tương ứng) khi thay đổi Domain.
 
 ### 4.4. Frontend (MVC)
-- **Page Models**: Inherit from `AbpPageModel`.
-- **Modals**: use `abp-modal` tag helpers.
-- **JavaScript**: Use `abp.ajax`, `abp.notify`, `abp.message` standard APIs.
+-   **Page Models**: Kế thừa `AbpPageModel`.
+-   **JavaScript**: Sử dụng `abp.ajax`, `abp.notify`, `abp.message`.
 
-## 5. Workflow Trigger
-- If asked to "Add a feature" (e.g., "Add student management"):
-    1.  Identify the correct module (e.g., `modules/Academic`).
-    2.  If the module doesn't exist structurally, initialize it first.
-    3.  Implement implementing Domain -> EF Core -> Application -> Web layers within that module folder.
-    4.  **DO NOT** add it to `src/DATERP.Application`.
+## 5. Quy Trình Work-flow (SOP)
+-   Khi được yêu cầu "Thêm tính năng" (ví dụ: Quản lý học viên):
+    1.  Xác định Module phù hợp (ví dụ: `modules/Academic`).
+    2.  Nếu module chưa có, hãy khởi tạo cấu trúc thư mục module trước.
+    3.  Triển khai theo thứ tự: Domain -> EF Core -> Application -> Web (bên trong module).
+    4.  **KHÔNG** thêm code vào `src/DATERP.Application`.
 
-## 6. Agent Behavior
-- **Proactive Check**: Before implementing code, verify which module directory defines the context.
-- **Module Isolation**: Assume modules cannot access each other's DbContexts directly. Use Repositories or Events.
-- **Refactoring**: If you see business logic in `src/`, propose moving it to `modules/`.
+## 6. Hành Vi Của Agent (Bắt buộc)
+-   **Ngôn ngữ**: **TIẾNG VIỆT** (Vietnamese) là ngôn ngữ chính trong mọi phản hồi, kế hoạch và tài liệu.
+-   **Thái độ**: Chuyên nghiệp, hỗ trợ, mang tính giáo dục.
+-   **Kiểm tra chủ động**: Trước khi viết code, hãy kiểm tra xem mình đang ở thư mục module nào.
+-   **Cô lập Module**: Giả định rằng các module không thấy DbContext của nhau.

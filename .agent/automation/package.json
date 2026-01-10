@@ -1,0 +1,13 @@
+{
+    "name": "daterp-automation",
+    "version": "1.0.0",
+    "description": "Selenium automation for DATERP",
+    "main": "auto_login.js",
+    "dependencies": {
+        "selenium-webdriver": "^4.0.0",
+        "chromedriver": "^132.0.0"
+    },
+    "scripts": {
+        "start": "node auto_login.js"
+    }
+}

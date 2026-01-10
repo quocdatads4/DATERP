@@ -27,13 +27,20 @@ public class DbMigratorHostedService : IHostedService
         using (var connection = new Npgsql.NpgsqlConnection(connectionString))
         {
             await connection.OpenAsync(cancellationToken);
-            using (var command = new Npgsql.NpgsqlCommand("DELETE FROM \"AbpUserRoles\" WHERE \"UserId\" IN (SELECT \"Id\" FROM \"AbpUsers\" WHERE \"UserName\" = 'admin')", connection))
+            try
             {
-                await command.ExecuteNonQueryAsync(cancellationToken);
+                using (var command = new Npgsql.NpgsqlCommand("DELETE FROM \"AbpUserRoles\" WHERE \"UserId\" IN (SELECT \"Id\" FROM \"AbpUsers\" WHERE \"UserName\" = 'admin')", connection))
+                {
+                    await command.ExecuteNonQueryAsync(cancellationToken);
+                }
+                using (var command = new Npgsql.NpgsqlCommand("DELETE FROM \"AbpUsers\" WHERE \"UserName\" = 'admin'", connection))
+                {
+                    await command.ExecuteNonQueryAsync(cancellationToken);
+                }
             }
-            using (var command = new Npgsql.NpgsqlCommand("DELETE FROM \"AbpUsers\" WHERE \"UserName\" = 'admin'", connection))
+            catch (PostgresException ex) when (ex.SqlState == "42P01")
             {
-                await command.ExecuteNonQueryAsync(cancellationToken);
+                Log.Warning("Tables do not exist yet, skipping manual cleanup.");
             }
         }
 
@@ -45,6 +52,23 @@ public class DbMigratorHostedService : IHostedService
         }))
         {
             await application.InitializeAsync();
+
+            // FIX: Manual Migration Trigger
+            try
+            {
+                Log.Information("Starting database migration...");
+                using (var scope = application.ServiceProvider.CreateScope())
+                {
+                    var dbContext = scope.ServiceProvider.GetRequiredService<DATERP.EntityFrameworkCore.DATERPDbContext>();
+                    await Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.MigrateAsync(dbContext.Database, cancellationToken);
+                    Log.Information("Database migration completed successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Failed to migrate database!");
+                throw;
+            }
 
             await application.ServiceProvider
                 .GetRequiredService<IDataSeeder>()

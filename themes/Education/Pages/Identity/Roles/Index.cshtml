@@ -1,0 +1,194 @@
+@page "/Identity/Roles"
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Identity.Localization
+@using Education.Pages.Identity.Roles
+@using Microsoft.AspNetCore.Authorization
+@using Volo.Abp.Identity
+@inject IAuthorizationService AuthorizationService
+@inject IHtmlLocalizer<IdentityResource> L
+@model IdentityRoleCustomIndexModel
+@{
+    ViewBag.Title = L["Roles"];
+}
+
+@section styles {
+    <link href="/themes/education/css/identity/roles/index.css" rel="stylesheet" />
+}
+
+@* Thẻ thống kê *@
+<div class="row mb-4">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-stat-primary">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div class="content-left">
+                        <span class="text-white opacity-75">Tổng vai trò</span>
+                        <div class="d-flex align-items-center my-1">
+                            <h4 class="mb-0 me-2 text-white">@Model.TotalRoles</h4>
+                        </div>
+                    </div>
+                    <div class="avatar">
+                        <span class="avatar-initial rounded">
+                            <i class="ti ti-shield-lock"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-stat-success">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div class="content-left">
+                        <span class="text-white opacity-75">Mặc định</span>
+                        <div class="d-flex align-items-center my-1">
+                            <h4 class="mb-0 me-2 text-white">@Model.DefaultRoles</h4>
+                        </div>
+                    </div>
+                    <div class="avatar">
+                        <span class="avatar-initial rounded">
+                            <i class="ti ti-checkbox"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-stat-danger">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div class="content-left">
+                        <span class="text-white opacity-75">Hệ thống (Tĩnh)</span>
+                        <div class="d-flex align-items-center my-1">
+                            <h4 class="mb-0 me-2 text-white">@Model.StaticRoles</h4>
+                        </div>
+                    </div>
+                    <div class="avatar">
+                        <span class="avatar-initial rounded">
+                            <i class="ti ti-lock"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="card card-stat-warning">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div class="content-left">
+                        <span class="text-white opacity-75">Công khai</span>
+                        <div class="d-flex align-items-center my-1">
+                            <h4 class="mb-0 me-2 text-white">@Model.PublicRoles</h4>
+                        </div>
+                    </div>
+                    <div class="avatar">
+                        <span class="avatar-initial rounded">
+                            <i class="ti ti-world"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Bảng danh sách vai trò *@
+<div class="card" id="IdentityRolesWrapper">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">@L["Roles"]</h5>
+        <div class="d-flex align-items-center">
+            @* Placeholder for search if we implement JS search later, keeping UI consistent *@
+            <div class="input-group input-group-merge me-3" style="min-width: 250px;">
+                <span class="input-group-text" id="basic-addon-search31"><i class="ti ti-search"></i></span>
+                <input type="text" class="form-control" id="RolesSearchInput" placeholder="@L["Search"]..."
+                    aria-label="Search..." aria-describedby="basic-addon-search31">
+            </div>
+            @if (await AuthorizationService.IsGrantedAsync(IdentityPermissions.Roles.Create))
+            {
+                <button type="button" class="btn btn-primary" id="abp-identity-roles-create-button" name="CreateRole">
+                    <i class="ti ti-plus me-1"></i> @L["NewRole"]
+                </button>
+            }
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover" id="IdentityRolesTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>@L["RoleName"]</th>
+                        <th>Phân loại</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Roles != null)
+                    {
+                        @foreach (var role in Model.Roles)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar me-2">
+                                            <span class="avatar-initial rounded bg-label-primary">@role.Initials</span>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <span class="fw-semibold text-heading">@role.Name</span>
+                                            <small class="text-muted">ID: @role.Id.ToString().Substring(0, 8)...</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (role.IsDefault)
+                                    {
+                                        <span class="badge bg-success">Mặc định</span>
+                                    }
+                                    @if (role.IsPublic)
+                                    {
+                                        <span class="badge bg-warning">Công khai</span>
+                                    }
+                                    @if (role.IsStatic)
+                                    {
+                                        <span class="badge bg-danger">Tĩnh</span>
+                                    }
+                                    @if (!role.IsDefault && !role.IsPublic && !role.IsStatic)
+                                    {
+                                        <span class="badge bg-info">Tùy chỉnh</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        @if (await AuthorizationService.IsGrantedAsync(IdentityPermissions.Roles.Update))
+                                        {
+                                            var editJs = $"_roleAppService.update('{role.Id}')"; /* Conceptual, need real JS binding
+                                                                or data attributes */
+                                            <button class="btn btn-sm btn-icon edit-role-btn" data-id="@role.Id" title="@L["Edit"]">
+                                                <i class="ti ti-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-icon permissions-role-btn" data-id="@role.Id"
+                                                data-name="@role.Name" title="@L["Permissions"]">
+                                                <i class="ti ti-lock-access"></i>
+                                            </button>
+                                        }
+                                        @if (await AuthorizationService.IsGrantedAsync(IdentityPermissions.Roles.Delete))
+                                        {
+                                            <button class="btn btn-sm btn-icon delete-role-btn text-danger" data-id="@role.Id"
+                                                data-name="@role.Name" title="@L["Delete"]" @(role.IsStatic ? "disabled" : "")>
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="/themes/education/js/identity/roles/index.js"></script>

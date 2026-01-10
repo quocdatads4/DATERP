@@ -1,0 +1,40 @@
+@page "/teacher/dashboard"
+@model Education.Pages.Teacher.DashboardModel
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@inject IThemeManager ThemeManager
+@{
+    Layout = ThemeManager.CurrentTheme.GetApplicationLayout();
+    ViewData["Title"] = "Teacher Dashboard";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="display-4 text-warning">Teacher Working Space</h1>
+                <p class="lead">Khu vực quản lý dành cho Giáo viên.</p>
+                <hr class="my-4">
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-dark mb-3">
+                            <div class="card-header">Lớp học phụ trách</div>
+                            <div class="card-body">
+                                <h5 class="card-title">3 Lớp đang hoạt động</h5>
+                                <p class="card-text">MOS Excel 2019, IC3 GS5...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-danger mb-3">
+                            <div class="card-header">Chấm bài</div>
+                            <div class="card-body">
+                                <h5 class="card-title">5 Bài cần chấm</h5>
+                                <p class="card-text">Danh sách bài tự luận cần xử lý.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

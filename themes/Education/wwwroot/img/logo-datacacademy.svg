@@ -1,0 +1,33 @@
+<svg viewBox="0 0 180 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- DATAcademy Logo for Vietnamese Education -->
+  <!-- Target: Middle school, High school, University students -->
+  
+  <!-- Icon: Graduation cap with book and rising sun (Vietnamese education symbol) -->
+  <g id="icon">
+    <!-- Book base -->
+    <rect x="4" y="26" width="36" height="18" rx="2" fill="#9f0208"/>
+    <rect x="6" y="28" width="32" height="14" rx="1" fill="#c41e24"/>
+    <line x1="22" y1="28" x2="22" y2="42" stroke="#9f0208" stroke-width="2"/>
+    
+    <!-- Graduation cap -->
+    <path d="M22 6L4 16L22 26L40 16L22 6Z" fill="#ffc107"/>
+    <path d="M4 16V24L22 34L40 24V16L22 26L4 16Z" fill="#d4a800"/>
+    
+    <!-- Tassel -->
+    <line x1="36" y1="16" x2="36" y2="28" stroke="#9f0208" stroke-width="2"/>
+    <circle cx="36" cy="30" r="3" fill="#9f0208"/>
+    
+    <!-- Rising sun rays (Vietnamese symbol) -->
+    <circle cx="22" cy="16" r="4" fill="#fff"/>
+  </g>
+  
+  <!-- Text: DATAcademy -->
+  <g id="text" fill="#1a1a1a">
+    <text x="50" y="22" font-family="'Segoe UI', Arial, sans-serif" font-size="16" font-weight="700">
+      <tspan fill="#9f0208">DAT</tspan><tspan fill="#1a1a1a">Academy</tspan>
+    </text>
+    <text x="50" y="38" font-family="'Segoe UI', Arial, sans-serif" font-size="9" fill="#666" letter-spacing="0.5">
+      Nền tảng học tập thông minh
+    </text>
+  </g>
+</svg>
