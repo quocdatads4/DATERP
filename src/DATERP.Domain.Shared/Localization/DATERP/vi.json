@@ -1,0 +1,19 @@
+{
+    "culture": "vi",
+    "texts": {
+        "Menu:Home": "Trang chủ",
+        "Welcome": "Chào mừng",
+        "LongWelcomeMessage": "Chào mừng đến với ứng dụng. Đây là dự án khởi nghiệp dựa trên ABP framework.",
+        "ExamSubject": "Môn thi",
+        "ErrorLoadingData": "Lỗi tải dữ liệu",
+        "ErrorDeletingData": "Lỗi xóa dữ liệu",
+        "SubjectName": "Tên môn thi",
+        "SubjectCode": "Mã môn",
+        "CreationTime": "Ngày tạo",
+        "Actions": "Thao tác",
+        "Edit": "Sửa",
+        "Delete": "Xóa",
+        "SubjectDeletionConfirmationMessage": "Bạn có chắc chắn muốn xóa môn thi",
+        "SuccessfullyDeleted": "Đã xóa thành công."
+    }
+}

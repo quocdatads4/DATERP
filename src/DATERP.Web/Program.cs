@@ -19,7 +19,7 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Volo.Abp.Identity", LogEventLevel.Debug)
     .MinimumLevel.Override("Education.Pages.Account", LogEventLevel.Debug)
     .Enrich.FromLogContext()
-    .WriteTo.Async(c => c.File($"Logs/DATERP_{DateTime.Now:yyyyMMdd_HHmmss}.txt"))
+    .WriteTo.Async(c => c.File(@"C:\Users\QuocDat-PC\Documents\GitHub\DATERP\Logs\logs-.txt", rollingInterval: RollingInterval.Day))
     .WriteTo.Async(c => c.Console())
     .CreateLogger();
 

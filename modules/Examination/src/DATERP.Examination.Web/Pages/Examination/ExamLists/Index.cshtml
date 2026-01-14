@@ -1,0 +1,22 @@
+@page
+@using DATERP.Examination.Web.Pages.Examination.ExamLists
+@using DATERP.Examination.Localization
+@using Education.Models
+@model DATERP.Examination.Web.Pages.Examination.ExamLists.IndexModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer<ExaminationResource> L
+
+@section scripts {
+    @if (!Model.IsStudent)
+    {
+        <abp-script src="/Pages/Examination/ExamLists/Index.js" />
+    }
+}
+
+@if (Model.IsStudent && Model.SubjectId.HasValue)
+{
+    @await Html.PartialAsync("_StudentView", Model)
+}
+else
+{
+    @await Html.PartialAsync("_AdminView", Model)
+}

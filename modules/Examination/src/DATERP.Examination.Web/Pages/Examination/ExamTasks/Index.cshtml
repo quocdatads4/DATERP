@@ -1,0 +1,28 @@
+@page
+@using DATERP.Examination.Web.Pages.Examination.ExamTasks
+@using DATERP.Examination.Localization
+@using Education.Models
+@model DATERP.Examination.Web.Pages.Examination.ExamTasks.IndexModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer<ExaminationResource> L
+
+@section scripts {
+    <abp-script src="/Pages/Examination/ExamTasks/Index.js" />
+}
+
+@await Html.PartialAsync("~/Pages/Shared/_AdminTable.cshtml", new AdminTableViewModel {
+Title = @L["ExamTasks"].Value,
+Icon = "ti ti-checkbox",
+TableId = "ExamTasksTable",
+CreateButtonId = "NewExamTaskButton",
+CreateButtonText = @L["NewExamTask"].Value,
+CreateButtonIcon = "ti ti-plus",
+ShowSearchBar = true,
+SearchPlaceholder = @L["Search"].Value + "...",
+Stats = new List<Education.Models.StatCardModel>
+{
+new Education.Models.StatCardModel { Title = "Tổng số nhiệm vụ", Value = Model.TotalCount.ToString(), Icon = "ti ti-checkbox", ColorClass =
+"primary" },
+new Education.Models.StatCardModel { Title = "Đang hoạt động", Value = Model.TotalCount.ToString(), Icon = "ti ti-check", ColorClass =
+"success" }
+}
+})

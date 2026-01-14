@@ -4,6 +4,7 @@
     <ProjectReference Include="..\DATERP.Application\DATERP.Application.csproj" />
     <ProjectReference Include="..\DATERP.EntityFrameworkCore\DATERP.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\DATERP.HttpApi\DATERP.HttpApi.csproj" />
+    <ProjectReference Include="..\..\modules\Examination\src\DATERP.Examination.Web\DATERP.Examination.Web.csproj" />
     <ProjectReference Include="..\..\themes\Education\Education.csproj" />
   </ItemGroup>
 

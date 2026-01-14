@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DATERP.Domain.Shared\DATERP.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\modules\Examination\src\DATERP.Examination.Application.Contracts\DATERP.Examination.Application.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

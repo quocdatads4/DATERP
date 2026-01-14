@@ -11,6 +11,7 @@ using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
+using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.EntityFrameworkCore;
 using DATERP.EntityFrameworkCore;
 using DATERP;
@@ -27,7 +28,11 @@ using Volo.Abp.FeatureManagement.Web;
 
 using Education;
 
-namespace DATERP.Web;
+using DATERP.Web;
+using DATERP.Examination;
+using DATERP.Examination.Localization;
+using Volo.Abp.AspNetCore.Mvc.Localization;
+using Volo.Abp.Validation.Localization;
 
 [DependsOn(
     typeof(DATERPHttpApiModule),
@@ -43,6 +48,8 @@ namespace DATERP.Web;
     typeof(AbpSwashbuckleModule),
     typeof(DATERPEntityFrameworkCoreModule),
     typeof(DATERPApplicationModule),
+    typeof(DATERP.Examination.Web.ExaminationWebModule),
+    typeof(ExaminationDomainSharedModule),
     typeof(EducationThemeModule)
     )]
 public class DATERPWebModule : AbpModule
@@ -50,6 +57,14 @@ public class DATERPWebModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         ConfigureAutoApiControllers();
+        Configure<AbpVirtualFileSystemOptions>(options =>
+        {
+            options.FileSets.AddEmbedded<DATERPWebModule>();
+            if (context.Services.GetHostingEnvironment().IsDevelopment())
+            {
+                options.FileSets.ReplaceEmbeddedByPhysical<DATERP.Examination.Web.ExaminationWebModule>(System.IO.Path.Combine(context.Services.GetHostingEnvironment().ContentRootPath, $@"..\..\modules\Examination\src\DATERP.Examination.Web"));
+            }
+        });
         Configure<AbpNavigationOptions>(options =>
         {
             options.MenuContributors.Add(new DATERP.Web.Menus.DATERPMenuContributor());
@@ -70,12 +85,22 @@ public class DATERPWebModule : AbpModule
         });
 
         ConfigureLocalizationServices();
+
+        context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
+        {
+            options.AddAssemblyResource(typeof(ExaminationResource));
+        });
     }
 
     private void ConfigureLocalizationServices()
     {
         Configure<AbpLocalizationOptions>(options =>
         {
+            options.Resources
+                .Get<ExaminationResource>()
+                .AddBaseTypes(typeof(AbpValidationResource))
+                .AddVirtualJson("/Localization/Examination");
+
             options.Languages.Add(new LanguageInfo("vi", "vi", "Tiếng Việt"));
             options.Languages.Add(new LanguageInfo("ar", "ar", "العربية"));
             options.Languages.Add(new LanguageInfo("cs", "cs", "Čeština"));
@@ -148,6 +173,7 @@ public class DATERPWebModule : AbpModule
         Configure<AbpAspNetCoreMvcOptions>(options =>
         {
             options.ConventionalControllers.Create(typeof(DATERPApplicationModule).Assembly);
+            options.ConventionalControllers.Create(typeof(DATERP.Examination.ExaminationApplicationModule).Assembly);
         });
     }
 }

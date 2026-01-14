@@ -1,0 +1,21 @@
+@using DATERP.Examination.Web.Pages.Examination.ExamLists
+@using DATERP.Examination.Localization
+@using Education.Models
+@model DATERP.Examination.Web.Pages.Examination.ExamLists.IndexModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer<ExaminationResource> L
+
+@await Html.PartialAsync("~/Pages/Shared/_AdminTable.cshtml", new AdminTableViewModel {
+Title = @L["ExamLists"].Value,
+Icon = "ti ti-list-check",
+TableId = "ExamListsTable",
+CreateButtonId = "NewExamListButton",
+CreateButtonText = @L["NewExamList"].Value,
+CreateButtonIcon = "ti ti-plus",
+ShowSearchBar = true,
+SearchPlaceholder = @L["Search"].Value + "...",
+Stats = new List<Education.Models.StatCardModel>
+{
+new Education.Models.StatCardModel { Title = "Tổng số bài thi", Value = Model.TotalCount.ToString(), Icon = "ti ti-file-description", ColorClass = "primary" },
+new Education.Models.StatCardModel { Title = "Đang hoạt động", Value = Model.TotalCount.ToString(), Icon = "ti ti-check", ColorClass = "success" }
+}
+})

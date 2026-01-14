@@ -49,3 +49,7 @@ yarn-error.log
 # ABP specific
 appsettings.secrets.json
 *.pfx
+
+# Unblock critical files/dirs
+!.gitignore
+!.agent/

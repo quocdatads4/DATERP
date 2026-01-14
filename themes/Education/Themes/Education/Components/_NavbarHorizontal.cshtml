@@ -4,7 +4,9 @@
 @inject IMenuManager MenuManager
 @using Microsoft.Extensions.Localization
 @using Education.Localization
+@using Volo.Abp.Users
 @inject IStringLocalizer<EducationResource> L
+@inject ICurrentUser CurrentUser
 @{
     var menu = await MenuManager.GetMainMenuAsync();
 }
@@ -32,11 +34,12 @@
         </div>
 
         <!-- Horizontal Menu (Moved Inside Navbar) -->
-        <div class="navbar-menu-wrapper flex-grow-1 d-none d-xl-flex">
-            <ul class="navbar-nav flex-row align-items-center ms-4 me-auto">
+        <div class="navbar-menu-wrapper flex-grow-1 d-none d-xl-flex" style="position: relative; z-index: 9999;">
+            <ul class="navbar-nav flex-row align-items-center ms-4 me-auto" style="gap: 0.5rem;">
                 @foreach (var menuItem in menu.Items)
                 {
-                    var elementId = string.IsNullOrEmpty(menuItem.ElementId) ? string.Empty :
+                    var elementId = string.IsNullOrEmpty(menuItem.ElementId) ? $"id=\"MenuItem_{menuItem.Name.Replace(".",
+                    "_")}\"" :
                     $"id=\"{menuItem.ElementId}\"";
                     var cssClass = string.IsNullOrEmpty(menuItem.CssClass) ? string.Empty : menuItem.CssClass;
                     var disabled = menuItem.IsDisabled ? "disabled" : string.Empty;
@@ -45,42 +48,78 @@
                     if (menuItem.Items.IsNullOrEmpty())
                     {
                         <!-- Single Leaf Item -->
-                        <li class="nav-item me-2 me-xl-0 @(menuItem.Name == "DATERP.Home" ? "active" : "")">
-                            <a href="@url" class="nav-link @cssClass @disabled" @Html.Raw(elementId)>
+                        <li class="nav-item me-3 @(menuItem.Name == "DATERP.Home" ? "active" : "")">
+                            <a href="@url" class="nav-link d-flex align-items-center @cssClass @disabled"
+                                style="white-space: nowrap;" @Html.Raw(elementId)>
                                 @if (!string.IsNullOrEmpty(menuItem.Icon))
                                 {
-                                    <i class="@menuItem.Icon me-2"></i>
+                                    <i class="@menuItem.Icon me-1"></i>
                                 }
-                                <span class="align-middle">@menuItem.DisplayName</span>
+                                <span>@menuItem.DisplayName</span>
                             </a>
                         </li>
                     }
                     else
                     {
                         <!-- Dropdown Item -->
-                        <li class="nav-item dropdown me-2 me-xl-0">
-                            <a class="nav-link dropdown-toggle @cssClass @disabled" href="javascript:void(0)"
-                                data-bs-toggle="dropdown" @Html.Raw(elementId)>
+                        <li class="nav-item dropdown me-3">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center @cssClass @disabled"
+                                href="javascript:void(0)" style="white-space: nowrap;" data-bs-toggle="dropdown"
+                                @Html.Raw(elementId)>
                                 @if (!string.IsNullOrEmpty(menuItem.Icon))
                                 {
-                                    <i class="@menuItem.Icon me-2"></i>
+                                    <i class="@menuItem.Icon me-1"></i>
                                 }
-                                <span class="align-middle">@menuItem.DisplayName</span>
+                                <span>@menuItem.DisplayName</span>
                             </a>
                             <ul class="dropdown-menu">
                                 @foreach (var subItem in menuItem.Items)
                                 {
                                     var subUrl = string.IsNullOrEmpty(subItem.Url) ? "#" : Url.Content(subItem.Url);
-                                    <li>
-                                        <a href="@subUrl"
-                                            class="dropdown-item @(subItem.CssClass) @(subItem.IsDisabled ? "disabled" : "")">
-                                            @if (!string.IsNullOrEmpty(subItem.Icon))
-                                            {
-                                                <i class="@subItem.Icon me-2"></i>
-                                            }
-                                            <span class="align-middle">@subItem.DisplayName</span>
-                                        </a>
-                                    </li>
+                                    if (subItem.Items.IsNullOrEmpty())
+                                    {
+                                        <li>
+                                            <a href="@subUrl"
+                                                class="dropdown-item d-flex align-items-center @(subItem.CssClass) @(subItem.IsDisabled ? "disabled" : "")">
+                                                @if (!string.IsNullOrEmpty(subItem.Icon))
+                                                {
+                                                    <i class="@subItem.Icon me-2"></i>
+                                                }
+                                                <span>@subItem.DisplayName</span>
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <!-- Nested Submenu -->
+                                        <li class="dropdown-submenu">
+                                            <a href="javascript:void(0)"
+                                                class="dropdown-item dropdown-toggle d-flex align-items-center @(subItem.CssClass) @(subItem.IsDisabled ? "disabled" : "")">
+                                                @if (!string.IsNullOrEmpty(subItem.Icon))
+                                                {
+                                                    <i class="@subItem.Icon me-2"></i>
+                                                }
+                                                <span>@subItem.DisplayName</span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                @foreach (var leafItem in subItem.Items)
+                                                {
+                                                    var leafUrl = string.IsNullOrEmpty(leafItem.Url) ? "#" :
+                                                    Url.Content(leafItem.Url);
+                                                    <li>
+                                                        <a href="@leafUrl"
+                                                            class="dropdown-item d-flex align-items-center @(leafItem.CssClass) @(leafItem.IsDisabled ? "disabled" : "")">
+                                                            @if (!string.IsNullOrEmpty(leafItem.Icon))
+                                                            {
+                                                                <i class="@leafItem.Icon me-2"></i>
+                                                            }
+                                                            <span>@leafItem.DisplayName</span>
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
                                 }
                             </ul>
                         </li>
@@ -201,26 +240,26 @@
                 </li>
                 <!-- /System Status -->
 
-                <!-- Search -->
-                <li class="nav-item navbar-search-wrapper me-2 me-xl-0">
-                    <a class="nav-item nav-link search-toggler px-0" href="javascript:void(0);">
-                        <i class="ti ti-search ti-md"></i>
-                    </a>
-                </li>
-
                 <!-- Language -->
                 <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
-                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                        <i class="ti ti-language ti-md"></i>
+                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
+                        id="language-dropdown-toggle">
+                        <span
+                            class="fi fi-@(System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "vi" ? "vn" : "gb") fis"
+                            style="font-size: 1.25rem;"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <a class="dropdown-item" href="javascript:void(0);" data-language="en">
+                            <a class="dropdown-item @(System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "en" ? "active" : "")"
+                                href="javascript:void(0);" data-language="en">
+                                <span class="fi fi-gb fis me-2"></span>
                                 <span>English</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="javascript:void(0);" data-language="vi">
+                            <a class="dropdown-item @(System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "vi" ? "active" : "")"
+                                href="javascript:void(0);" data-language="vi">
+                                <span class="fi fi-vn fis me-2"></span>
                                 <span>Tiếng Việt</span>
                             </a>
                         </li>
@@ -296,7 +335,9 @@
                     <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
                         data-bs-toggle="dropdown">
                         <div class="avatar avatar-online">
-                            <span class="avatar-initial rounded-circle bg-label-primary">U</span>
+                            <span
+                                class="avatar-initial rounded-circle bg-label-primary">@(CurrentUser.UserName?.Substring(0,
+                                                                1).ToUpper() ?? "U")</span>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -305,12 +346,14 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-shrink-0 me-2">
                                         <div class="avatar avatar-online">
-                                            <span class="avatar-initial rounded-circle bg-label-primary">U</span>
+                                            <span
+                                                class="avatar-initial rounded-circle bg-label-primary">@(CurrentUser.UserName?.Substring(0,
+                                                                                                1).ToUpper() ?? "U")</span>
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <h6 class="mb-0">User</h6>
-                                        <small class="text-muted">Admin</small>
+                                        <h6 class="mb-0">@(CurrentUser.Name ?? CurrentUser.UserName)</h6>
+                                        <small class="text-muted">@(string.Join(", ", CurrentUser.Roles))</small>
                                     </div>
                                 </div>
                             </a>

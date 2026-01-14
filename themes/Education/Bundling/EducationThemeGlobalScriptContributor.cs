@@ -25,6 +25,12 @@ public class EducationThemeGlobalScriptContributor : SharedThemeGlobalScriptCont
 
         // Site-specific JS
         context.Files.AddIfNotContains("/_content/Education/js/site.js");
+
+        // Admin Table Component JS
+        context.Files.AddIfNotContains("/_content/Education/js/admin-table.js");
+
+        // Language Switcher JS
+        context.Files.AddIfNotContains("/_content/Education/js/language-switcher.js");
     }
 }
 

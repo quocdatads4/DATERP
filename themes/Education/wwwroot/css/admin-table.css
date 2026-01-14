@@ -1,0 +1,450 @@
+/**
+ * admin-table.css - Shared styles for Admin Table Component
+ * Used by _AdminTable.cshtml across all admin modules
+ */
+
+/* ============================================
+   Container & Card Styles
+   ============================================ */
+.admin-table-container {
+    padding: 0;
+}
+
+.admin-table-card {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.admin-table-card .card-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.admin-table-card .card-title {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+/* Modern Admin Table Search Styling */
+.dt-search {
+    position: relative;
+    width: 280px;
+    /* Fixed optimal width */
+}
+
+.dt-search .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    /* Gray-400 */
+    font-size: 1.15rem;
+    pointer-events: none;
+    z-index: 10;
+    transition: color 0.2s ease;
+}
+
+.dt-search .form-control {
+    padding-left: 44px !important;
+    /* Padding ensures text doesn't overlap icon */
+    padding-right: 16px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    /* Gray-200 */
+    background-color: #fff;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #1f2937;
+    /* Gray-800 */
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dt-search .form-control:focus {
+    border-color: #3b82f6;
+    /* Blue-500 */
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    /* Soft Blue Ring */
+    outline: none;
+}
+
+.dt-search .form-control::placeholder {
+    color: #9ca3af;
+    opacity: 1;
+}
+
+.dt-search:hover .search-icon {
+    color: #6b7280;
+    /* Darker gray on hover */
+}
+
+.dt-search:hover .form-control {
+    border-color: #d1d5db;
+    /* Gray-300 */
+}
+
+/* ID-based selector for specific tables (like Identity Users) */
+[id$="SearchWrapper"] .dt-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+[id$="SearchWrapper"] .search-icon {
+    position: absolute;
+    left: 12px;
+    color: #a5a3ae;
+    font-size: 1.1rem;
+    pointer-events: none;
+}
+
+[id$="SearchWrapper"] input {
+    width: 260px;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem 0.5rem 38px;
+    border: 1px solid #dee2e6;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    background-color: #fff;
+}
+
+[id$="SearchWrapper"] input:focus {
+    width: 320px;
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    outline: none;
+}
+
+/* ============================================
+   Toolbar & Search
+   ============================================ */
+.admin-table-toolbar {
+    background: #f8f9fa;
+}
+
+.admin-table-toolbar .input-group-text {
+    border-color: #dee2e6;
+}
+
+.admin-table-toolbar .form-control:focus {
+    border-color: #3b82f6;
+    box-shadow: none;
+}
+
+.admin-table-filter {
+    min-width: 150px;
+}
+
+/* ============================================
+   DataTable Styles
+   ============================================ */
+.admin-table {
+    width: 100% !important;
+}
+
+.admin-table thead th {
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #495057;
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    padding: 0.875rem 1rem;
+    white-space: nowrap;
+}
+
+/* Hide DataTables duplicate scroll header */
+.dt-scroll-head {
+    display: none !important;
+}
+
+.dataTables_wrapper .dt-scroll {
+    overflow: visible !important;
+}
+
+.admin-table tbody td {
+    padding: 0.875rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.admin-table tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.04);
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Actions Column */
+.admin-table .actions-column {
+    width: 180px;
+    text-align: center;
+}
+
+/* Action Buttons - Label Style */
+.btn-label-primary {
+    color: #3b82f6 !important;
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    border: none !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-label-primary:hover {
+    color: #fff !important;
+    background-color: #3b82f6 !important;
+}
+
+.btn-label-danger {
+    color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    border: none !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-label-danger:hover {
+    color: #fff !important;
+    background-color: #ef4444 !important;
+}
+
+.btn-label-primary i,
+.btn-label-danger i {
+    font-size: 1rem;
+}
+
+
+.admin-table .btn-action {
+    padding: 0.375rem 0.625rem;
+    font-size: 0.8rem;
+    border-radius: 0.25rem;
+}
+
+.admin-table .btn-action i {
+    font-size: 1rem;
+}
+
+/* ============================================
+   Footer & Pagination
+   ============================================ */
+.admin-table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.admin-table-footer .dataTables_info {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* DataTables 2.x Paging - Modern Design */
+.admin-table-footer .dt-paging,
+.admin-table-footer .dataTables_paginate {
+    margin-left: auto;
+}
+
+.dt-paging .pagination {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.dt-paging .page-item .page-link {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    min-width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4b5563;
+    /* Gray-600 */
+    background-color: transparent;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dt-paging .page-item:not(.active):not(.disabled) .page-link:hover {
+    background-color: #f3f4f6;
+    /* Gray-100 */
+    color: #111827;
+    /* Gray-900 */
+    border-color: #e5e7eb;
+    transform: translateY(-1px);
+}
+
+.dt-paging .page-item.active .page-link {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: #fff;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.5);
+    /* Soft Blue Shadow */
+}
+
+.dt-paging .page-item.disabled .page-link {
+    background-color: transparent;
+    color: #d1d5db;
+    /* Gray-300 */
+    cursor: default;
+}
+
+.dt-paging .page-item .page-link i {
+    font-size: 1.1rem;
+    stroke-width: 2.5;
+    /* Make chevron icons slightly bolder */
+}
+
+/* DataTables Length & Filter Override */
+/* Footer Layout */
+.admin-table-footer .footer-left {
+    flex: 1;
+}
+
+.admin-table-footer .footer-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* DataTables Length Select */
+.dt-length,
+.dataTables_length {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #495057;
+}
+
+.dt-length label,
+.dataTables_length label {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    gap: 1rem;
+    /* Increased gap */
+    font-weight: 500;
+    /* Medium weight */
+    white-space: nowrap;
+}
+
+.dt-length select,
+.dataTables_length select {
+    padding: 0.375rem 2.5rem 0.375rem 1rem;
+    /* Increased padding */
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    background-color: #fff;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    min-width: 90px;
+    /* Increased width */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    /* Adjusted icon position */
+    background-size: 16px 12px;
+    appearance: none;
+    line-height: 1.5;
+}
+
+.dt-length select:focus,
+.dataTables_length select:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* DataTables Filter Override (We still hide default search) */
+.dataTables_wrapper .dataTables_filter {
+    display: none;
+}
+
+/* ============================================
+   Loading State
+   ============================================ */
+.admin-table-loading {
+    position: relative;
+    min-height: 200px;
+}
+
+.admin-table-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================
+   Empty State
+   ============================================ */
+.admin-table-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #6c757d;
+}
+
+.admin-table-empty i {
+    font-size: 3rem;
+    color: #dee2e6;
+    margin-bottom: 1rem;
+}
+
+.admin-table-empty p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+@media (max-width: 768px) {
+    .admin-table-toolbar .row {
+        gap: 0.5rem;
+    }
+
+    .admin-table-toolbar .col-md-4,
+    .admin-table-toolbar .col-md-8 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .admin-table-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stats-card-body {
+        padding: 0.875rem;
+    }
+
+    .stats-value {
+        font-size: 1.25rem;
+    }
+}

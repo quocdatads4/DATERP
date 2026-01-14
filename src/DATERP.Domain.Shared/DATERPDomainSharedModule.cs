@@ -8,6 +8,8 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.Localization;
+using DATERP.Examination;
 
 namespace DATERP;
 
@@ -18,7 +20,8 @@ namespace DATERP;
     typeof(AbpIdentityDomainSharedModule),
     typeof(AbpTenantManagementDomainSharedModule),
     typeof(AbpPermissionManagementDomainSharedModule),
-    typeof(AbpSettingManagementDomainSharedModule)
+    typeof(AbpSettingManagementDomainSharedModule),
+    typeof(ExaminationDomainSharedModule)
     )]
 public class DATERPDomainSharedModule : AbpModule
 {
@@ -27,6 +30,16 @@ public class DATERPDomainSharedModule : AbpModule
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
             options.FileSets.AddEmbedded<DATERPDomainSharedModule>();
+        });
+
+        Configure<AbpLocalizationOptions>(options =>
+        {
+            options.Resources
+                .Add<DATERP.Localization.DATERPResource>("en")
+                .AddBaseTypes(typeof(AbpValidationResource))
+                .AddVirtualJson("/Localization/DATERP");
+
+            options.DefaultResourceType = typeof(DATERP.Localization.DATERPResource);
         });
     }
 }

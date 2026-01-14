@@ -1,0 +1,197 @@
+@page
+@using DATERP.Examination.Localization
+@using Microsoft.Extensions.Localization
+@model DATERP.Examination.Web.Pages.Examination.ExamTaking.IndexModel
+@inject IStringLocalizer<ExaminationResource> L
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(Model.ExamList?.Title ?? "Exam Taking") - DATERP</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/Pages/Examination/ExamTaking/Index.css" />
+</head>
+
+<body>
+
+    @if (Model.ExamList == null)
+    {
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="alert alert-danger">
+                <i class="ti ti-alert-circle me-2"></i>
+                @L["ExamListNotFound"]
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="exam-taking-container">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="top-left">
+                    <div class="exam-info">
+                        <i class="ti ti-book me-2"></i>
+                        <span class="exam-title">@Model.ExamList.Title</span>
+                    </div>
+                    <div class="projects-container">
+                        <div class="project-info">
+                            <i class="ti ti-folder me-1"></i>
+                            <span class="project-label">Project:</span>
+                            <div class="project-select-container">
+                                <select id="project-select" class="project-select">
+                                    @if (Model.Projects.Any())
+                                    {
+                                        @foreach (var project in Model.Projects)
+                                        {
+                                            @if (project.Id == Model.CurrentProjectId)
+                                            {
+                                                <option value="@project.Id" selected>@project.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@project.Id">@project.Name</option>
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="" disabled selected>@L["NoProjectsAvailable"]</option>
+                                    }
+                                </select>
+                                <div class="select-arrow">
+                                    <i class="ti ti-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.CurrentProjectId.HasValue)
+                    {
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                // Auto-trigger download for WinForms interception
+                                window.location.href = '?handler=DownloadResource&projectId=@Model.CurrentProjectId';
+                            });
+                        </script>
+                    }
+                    <div id="progress-indicator" class="progress-indicator">
+                        <span class="progress-text">
+                            <i class="ti ti-chart-pie me-1"></i>
+                            <span id="completed-count">0</span>/<span id="total-count">@Model.Tasks.Count</span>
+                            @L["Completed"]
+                        </span>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="top-right">
+                    <span class="top-link" id="restart-link">
+                        <i class="ti ti-refresh"></i> @L["Restart"]
+                    </span>
+                    <span class="top-link" id="grade-link">
+                        <i class="ti ti-star"></i> @L["Grade"]
+                    </span>
+                    <button class="btn btn-warning" id="submit-project-btn" title="@L["SubmitAndGrade"]">
+                        <i class="ti ti-send me-1"></i> @L["Submit"]
+                    </button>
+                    <a href="/Examination/ExamSubjects" class="btn btn-secondary" title="@L["BackToList"]">
+                        <i class="ti ti-arrow-left me-1"></i> @L["Back"]
+                    </a>
+                </div>
+            </div>
+
+            <!-- Tabs Container -->
+            <div class="tabs-container">
+                <button class="tab active" data-tab="overview" id="tab-overview">
+                    <span class="tab-text">@L["Overview"]</span>
+                    <span class="tab-badge">
+                        <i class="ti ti-layout-grid"></i>
+                    </span>
+                </button>
+                @for (int i = 0; i < Model.Tasks.Count; i++)
+                {
+                    var task = Model.Tasks[i];
+                    <button class="tab" data-tab="task-@task.Id" data-task-index="@i" data-task-id="@task.Id">
+                        <span class="tab-text">@L["Task"] @(i + 1)</span>
+                        <span class="tab-status" id="status-@task.Id">
+                            <i class="ti ti-circle"></i>
+                        </span>
+                    </button>
+                }
+            </div>
+
+            <!-- Instruction Area -->
+            <div class="instruction-area" id="instruction-area">
+                <div class="instruction-content" id="instruction-content">
+                    @if (Model.Tasks.Any())
+                    {
+                        <div class="overview-content" id="overview-content">
+                            @if (!string.IsNullOrEmpty(Model.CurrentProject?.Instruction))
+                            {
+                                <div class="project-instruction">@Model.CurrentProject.Instruction</div>
+                            }
+                            <div class="task-overview-grid">
+                                @for (int i = 0; i < Model.Tasks.Count; i++)
+                                {
+                                    var task = Model.Tasks[i];
+                                    <div class="task-overview-item" data-task-id="@task.Id" onclick="goToTask('@task.Id', @i)">
+                                        <div class="task-number">@(i + 1)</div>
+                                        <div class="task-preview">@task.Content</div>
+                                        <div class="task-points">@task.Point @L["Points"]</div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="no-tasks-message">
+                            <i class="ti ti-mood-empty" style="font-size: 3rem; color: #ccc;"></i>
+                            <p>@L["NoTasksAvailable"]</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Control Bar -->
+            <div class="control-bar">
+                <button class="btn btn-secondary" id="prev-task" disabled>
+                    <i class="ti ti-arrow-left me-1"></i> @L["PreviousTask"]
+                </button>
+                <button class="btn btn-success" id="mark-completed">
+                    <i class="ti ti-check me-1"></i> @L["MarkCompleted"]
+                </button>
+                <button class="btn btn-warning" id="mark-review">
+                    <i class="ti ti-flag me-1"></i> @L["MarkForReview"]
+                </button>
+                <button class="btn btn-secondary" id="next-task">
+                    @L["NextTask"] <i class="ti ti-arrow-right ms-1"></i>
+                </button>
+                <button class="btn btn-info" id="help-btn">
+                    <i class="ti ti-help me-1"></i> @L["Help"]
+                </button>
+            </div>
+        </div>
+    }
+
+    <!-- jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/Pages/Examination/ExamTaking/Index.js"></script>
+</body>
+
+</html>

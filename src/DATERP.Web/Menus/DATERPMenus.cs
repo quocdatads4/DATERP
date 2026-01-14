@@ -26,6 +26,12 @@ public class DATERPMenus
     public const string GeneralSettings = Prefix + ".GeneralSettings";
     public const string Features = Prefix + ".Features";
 
+    // Examination
+    public const string Examination = Prefix + ".Examination";
+    public const string ExamSubjects = Prefix + ".ExamSubjects";
+    public const string ExamLists = Prefix + ".ExamLists";
+    public const string ExamProjects = Prefix + ".ExamProjects";
+
     // Student Specific
     public const string MyLearning = Prefix + ".MyLearning";
     public const string ExamSimulation = Prefix + ".ExamSimulation";

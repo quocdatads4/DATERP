@@ -42,7 +42,17 @@ public class DATERPMenuContributor : IMenuContributor
             educationMenu.AddItem(new ApplicationMenuItem(DATERPMenus.Courses, "Khóa học", "/Courses", icon: "ti ti-notebook")); // Courses -> Khóa học
             educationMenu.AddItem(new ApplicationMenuItem(DATERPMenus.Students, "Học viên", "/Students", icon: "ti ti-users")); // Students -> Học viên
             educationMenu.AddItem(new ApplicationMenuItem(DATERPMenus.Teachers, "Giáo viên", "/Teachers", icon: "ti ti-user-check")); // Teachers -> Giáo viên
+
+            // Examination Management -> Quản lý thi cử (Nested inside Education)
+            var examinationSubMenu = new ApplicationMenuItem(DATERPMenus.Examination, "Quản lý thi cử", icon: "ti ti-database-import");
+            examinationSubMenu.AddItem(new ApplicationMenuItem(DATERPMenus.ExamSubjects, "Môn thi", "/Examination/ExamSubjects", icon: "ti ti-category"));
+            examinationSubMenu.AddItem(new ApplicationMenuItem(DATERPMenus.ExamLists, "Bài thi", "/Examination/ExamLists", icon: "ti ti-list-details"));
+            examinationSubMenu.AddItem(new ApplicationMenuItem(DATERPMenus.ExamProjects, "Đề thi", "/Examination/ExamProjects", icon: "ti ti-file-code"));
+
+
+            educationMenu.AddItem(examinationSubMenu);
             context.Menu.AddItem(educationMenu);
+
 
             // Management -> Quản lý
             var managementMenu = new ApplicationMenuItem(DATERPMenus.Management, "Quản lý hệ thống", icon: "ti ti-settings", order: 2);
@@ -85,7 +95,7 @@ public class DATERPMenuContributor : IMenuContributor
             context.Menu.AddItem(new ApplicationMenuItem(
                 DATERPMenus.ExamSimulation,
                 "Luyện thi",
-                "/student/exams",
+                "/Examination/ExamSubjects",
                 icon: "ti ti-test-pipe",
                 order: 11
             ));

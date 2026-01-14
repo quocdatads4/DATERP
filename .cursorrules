@@ -65,3 +65,9 @@ Bạn đang làm việc trên dự án **DATERP**, một nền tảng **ERP Giá
 -   **Thái độ**: Chuyên nghiệp, hỗ trợ, mang tính giáo dục.
 -   **Kiểm tra chủ động**: Trước khi viết code, hãy kiểm tra xem mình đang ở thư mục module nào.
 -   **Cô lập Module**: Giả định rằng các module không thấy DbContext của nhau.
+
+## 7. Quy Trình Agent Nâng Cao (Antigravity)
+*   **Artifact-First**: Mọi thay đổi lớn PHẢI bắt đầu bằng việc tạo/cập nhật `implementation_plan.md`.
+*   **OpenSpec**: Sử dụng Workflows trong `.agent/workflows/` và Template trong `.agent/templates/` cho các tính năng mới.
+*   **Deep Think**: Đọc kỹ `.antigravity/rules.md` để hiểu quy trình "Think-Act-Verify" bắt buộc.
+

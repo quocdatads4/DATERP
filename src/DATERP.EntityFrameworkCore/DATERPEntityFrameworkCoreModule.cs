@@ -9,6 +9,7 @@ using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
+using DATERP.Examination;
 
 namespace DATERP.EntityFrameworkCore;
 
@@ -21,7 +22,8 @@ namespace DATERP.EntityFrameworkCore;
     typeof(AbpEntityFrameworkCorePostgreSqlModule),
     typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
-    typeof(AbpFeatureManagementEntityFrameworkCoreModule)
+    typeof(AbpFeatureManagementEntityFrameworkCoreModule),
+    typeof(ExaminationEntityFrameworkCoreModule)
     )]
 public class DATERPEntityFrameworkCoreModule : AbpModule
 {

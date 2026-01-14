@@ -1,0 +1,11 @@
+@model IEnumerable<Education.Models.StatCardModel>
+
+<div class="row mb-4">
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            @await Html.PartialAsync("~/Pages/Shared/_StatCard.cshtml", item)
+        }
+    }
+</div>

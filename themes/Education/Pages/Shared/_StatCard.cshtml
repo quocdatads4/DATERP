@@ -1,0 +1,21 @@
+@model Education.Models.StatCardModel
+
+<div class="col-sm-6 col-xl-3">
+    <div class="card card-stat-@Model.ColorClass">
+        <div class="card-body">
+            <div class="d-flex align-items-start justify-content-between">
+                <div class="content-left">
+                    <span class="text-white opacity-75">@Model.Title</span>
+                    <div class="d-flex align-items-center my-1">
+                        <h4 class="mb-0 me-2 text-white">@Model.Value</h4>
+                    </div>
+                </div>
+                <div class="avatar">
+                    <span class="avatar-initial rounded">
+                        <i class="@Model.Icon"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

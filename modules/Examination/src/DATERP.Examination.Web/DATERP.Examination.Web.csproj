@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>DATERP.Examination</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\**\*.js" />
+    <EmbeddedResource Include="Pages\**\*.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\themes\Education\Education.csproj" />
+    <ProjectReference Include="..\DATERP.Examination.Application.Contracts\DATERP.Examination.Application.Contracts.csproj" />
+    <ProjectReference Include="..\DATERP.Examination.Domain.Shared\DATERP.Examination.Domain.Shared.csproj" />
+    <ProjectReference Include="..\DATERP.Examination.Domain\DATERP.Examination.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="10.0.2" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="10.0.2" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.0" />
+  </ItemGroup>
+
+</Project>

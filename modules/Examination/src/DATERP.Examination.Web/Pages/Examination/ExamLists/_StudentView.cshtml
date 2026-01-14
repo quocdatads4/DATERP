@@ -1,0 +1,328 @@
+@using DATERP.Examination.Web.Pages.Examination.ExamLists
+@using DATERP.Examination.Localization
+@using Microsoft.Extensions.Localization
+@model DATERP.Examination.Web.Pages.Examination.ExamLists.IndexModel
+@inject IStringLocalizer<ExaminationResource> L
+
+@section PageStyles {
+    <style>
+        .subject-header-card {
+            background: linear-gradient(135deg, #1a2742 0%, #2d1f4e 100%);
+            border: none;
+            border-radius: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .subject-header-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, transparent 100%);
+            /* Changed to dark overlay for better text pop */
+            pointer-events: none;
+        }
+
+        .subject-header-card .glass-stat {
+            background: rgba(0, 0, 0, 0.15);
+            /* Darker glass for contrast on light variants */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            transition: transform 0.2s ease;
+        }
+
+        .subject-header-card .glass-stat:hover {
+            transform: translateY(-2px);
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .card.subject-header-card h4,
+        .card.subject-header-card h5,
+        .card.subject-header-card h2,
+        .card.subject-header-card p,
+        .card.subject-header-card span,
+        .card.subject-header-card small,
+        .card.subject-header-card .text-white-always {
+            color: #ffffff !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .card.subject-header-card .text-white-50-always {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+    </style>
+}
+
+@functions {
+    public string GetHeaderGradient(string code, string colorClass)
+    {
+        var normalizedCode = code?.ToUpper() ?? "";
+        // Darkened gradients to ensure white text is always readable (WCAG AA/AAA)
+        if (normalizedCode.Contains("EXCEL")) return "linear-gradient(135deg, #064e3b 0%, #065f46 100%)";
+        if (normalizedCode.Contains("POWERPOINT") || normalizedCode.Contains("PPT")) return "linear-gradient(135deg, #7c2d12 0%, #9a3412 100%)";
+        if (normalizedCode.Contains("WORD")) return "linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%)";
+        if (normalizedCode.Contains("ACCESS")) return "linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%)";
+        if (normalizedCode.Contains("OUTLOOK")) return "linear-gradient(135deg, #0c4a6e 0%, #0ea5e9 100%)";
+
+        return "linear-gradient(135deg, #312e81 0%, #4338ca 100%)";
+    }
+
+    public string GetSubjectMainColor(string code)
+    {
+        var normalizedCode = code?.ToUpper() ?? "";
+        if (normalizedCode.Contains("EXCEL")) return "#059669"; /* Emerald-600 */
+        if (normalizedCode.Contains("POWERPOINT") || normalizedCode.Contains("PPT")) return "#ea580c"; /* Orange-600 */
+        if (normalizedCode.Contains("WORD")) return "#2563eb"; /* Blue-600 */
+        if (normalizedCode.Contains("ACCESS")) return "#dc2626"; /* Red-600 */
+        if (normalizedCode.Contains("OUTLOOK")) return "#0891b2"; /* Cyan-600 */
+
+        return "#4f46e5"; /* Indigo-600 */
+    }
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    @if (Model.Subject != null)
+    {
+        <div class="row">
+            <!-- Subject Header (Redesigned) -->
+            <div class="col-lg-12 mb-4">
+                <div class="card subject-header-card"
+                    style="background: @GetHeaderGradient(Model.Subject.Code, Model.Subject.ColorClass);">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start mb-4">
+                            <div class="d-flex align-items-center mb-3 mb-md-0">
+                                <div class="avatar avatar-xl me-4 rounded p-1" style="background: #ffffff;">
+                                    <span class="avatar-initial rounded bg-transparent">
+                                        <i class="ti @(Model.Subject.Icon ?? "ti-book")"
+                                            style="font-size: 2.25rem; color: @GetSubjectMainColor(Model.Subject.Code);"></i>
+                                    </span>
+                                </div>
+                                <div>
+                                    <h2 class="fw-bold mb-1"
+                                        style="color: #ffffff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+                                        @Model.Subject.Name</h2>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="badge bg-white text-dark border border-white border-opacity-25">
+                                            @Model.Subject.Code
+                                        </span>
+                                        @if (!string.IsNullOrEmpty(Model.Subject.BadgeText))
+                                        {
+                                            <span class="badge bg-warning text-dark">
+                                                <i class="ti ti-star me-1"
+                                                    style="font-size: 0.75rem;"></i>@L[Model.Subject.BadgeText]
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Optional Top Right Action or Decoration -->
+                            <div class="d-none d-md-block opacity-50">
+                                <i class="ti ti-award" style="font-size: 5rem; color: #ffffff;"></i>
+                            </div>
+                        </div>
+
+                        <p class="mb-5 fs-5" style="max-width: 800px; line-height: 1.6; color: #ffffff !important;">
+                            @(Model.Subject.Description ?? L["NoDescriptionAvailable"])
+                        </p>
+
+                        <div class="row g-3">
+                            <div class="col-md-4 col-6">
+                                <div class="glass-stat h-100 d-flex align-items-center">
+                                    <div class="avatar avatar-sm me-3 bg-white rounded-circle p-1">
+                                        <span class="avatar-initial bg-transparent">
+                                            <i class="ti ti-file-text"
+                                                style="color: @GetSubjectMainColor(Model.Subject.Code);"></i>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <small class="d-block text-uppercase fw-bold"
+                                            style="font-size: 0.7rem; letter-spacing: 0.5px; color: #ffffff !important;">@L["TotalExamLists"]</small>
+                                        <span class="fw-bold fs-5"
+                                            style="color: #ffffff !important;">@Model.Subject.TotalExamLists</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-6">
+                                <div class="glass-stat h-100 d-flex align-items-center">
+                                    <div class="avatar avatar-sm me-3 bg-white rounded-circle p-1">
+                                        <span class="avatar-initial bg-transparent">
+                                            <i class="ti ti-folder"
+                                                style="color: @GetSubjectMainColor(Model.Subject.Code);"></i>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <small class="d-block text-uppercase fw-bold"
+                                            style="font-size: 0.7rem; letter-spacing: 0.5px; color: #ffffff !important;">@L["TotalProjects"]</small>
+                                        <span class="fw-bold fs-5"
+                                            style="color: #ffffff !important;">@Model.Subject.TotalExamProjects</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <div class="glass-stat h-100 d-flex align-items-center">
+                                    <div class="avatar avatar-sm me-3 bg-white rounded-circle p-1">
+                                        <span class="avatar-initial bg-transparent">
+                                            <i class="ti ti-list-check"
+                                                style="color: @GetSubjectMainColor(Model.Subject.Code);"></i>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <small class="d-block text-uppercase fw-bold"
+                                            style="font-size: 0.7rem; letter-spacing: 0.5px; color: #ffffff !important;">@L["TotalTasks"]</small>
+                                        <span class="fw-bold fs-5"
+                                            style="color: #ffffff !important;">@Model.Subject.TotalExamTasks</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Related Courses (Exam Lists) -->
+            <div class="col-lg-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="ti ti-file-text me-2"></i>@L["RelatedExams"]
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.ExamLists != null && Model.ExamLists.Any())
+                        {
+                            <div class="row">
+                                @foreach (var exam in Model.ExamLists)
+                                {
+                                    <div class="col-12 mb-3">
+                                        <div class="card border">
+                                            <div class="card-body py-3">
+                                                <div class="row align-items-center">
+                                                    <!-- Column 1: Title & Badge -->
+                                                    <div class="col-lg-3 col-md-4 mb-3 mb-md-0">
+                                                        <h5 class="card-title mb-1 fw-bold">@exam.Title</h5>
+                                                        <span class="badge bg-label-@(exam.IsFree ? "success" : "warning")">
+                                                            @(exam.IsFree? L["Free"] : exam.Price.ToString("N0") + " đ")
+                                                        </span>
+                                                    </div>
+
+                                                    <!-- Column 2: Stats -->
+                                                    <div class="col-lg-6 col-md-5 mb-3 mb-md-0">
+                                                        <div class="d-flex flex-wrap gap-4 justify-content-start">
+                                                            <!-- Time Limit -->
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar avatar-sm flex-shrink-0 me-2">
+                                                                    <span class="avatar-initial rounded bg-label-success">
+                                                                        <i class="ti ti-clock"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="fw-semibold">@exam.TimeLimit @L["Minutes"]</span>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Total Projects -->
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar avatar-sm flex-shrink-0 me-2">
+                                                                    <span class="avatar-initial rounded bg-label-primary">
+                                                                        <i class="ti ti-folder"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="fw-semibold">@(exam.TotalProjects)
+                                                                        @L["Projects"]</span>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Total Tasks -->
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar avatar-sm flex-shrink-0 me-2">
+                                                                    <span class="avatar-initial rounded bg-label-warning">
+                                                                        <i class="ti ti-list-check"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <div>
+                                                                    <span class="fw-semibold">@(exam.TotalTasks) @L["Tasks"]</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Column 3: Action Buttons -->
+                                                    <div class="col-lg-3 col-md-3">
+                                                        <div class="d-flex gap-2 justify-content-md-end">
+                                                            <a href="/Examination/ExamTaking?examListId=@exam.Id"
+                                                                class="btn btn-info btn-sm" role="button"
+                                                                aria-label="@L["Practice"] @exam.Title">
+                                                                <i class="ti ti-refresh me-1"></i>
+                                                                @L["Practice"]
+                                                            </a>
+                                                            <a href="javascript:void(0);" class="btn btn-warning btn-sm"
+                                                                role="button" aria-label="@L["MockExam"] @exam.Title">
+                                                                <i class="ti ti-clipboard-check me-1"></i>
+                                                                @L["MockExam"]
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-4">
+                                <div class="avatar avatar-lg mb-3">
+                                    <span class="avatar-initial rounded bg-label-secondary">
+                                        <i class="ti ti-book-off"></i>
+                                    </span>
+                                </div>
+                                <h6 class="card-title">@L["NoExamsFound"]</h6>
+                                <p class="card-text text-muted">@L["NoExamsMessage"]</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <div class="avatar avatar-lg mb-3">
+                            <span class="avatar-initial rounded bg-label-danger">
+                                <i class="ti ti-alert-circle"></i>
+                            </span>
+                        </div>
+                        <h5 class="card-title">@L["SubjectNotFound"]</h5>
+                        <p class="card-text">@L["SubjectNotFoundMessage"]</p>
+                        <a href="/Examination/ExamSubjects" class="btn btn-primary">
+                            <i class="ti ti-arrow-left me-1"></i> @L["BackToList"]
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Add hover effect to cards like reference
+        $('.card-hover').hover(
+            function () { $(this).addClass('shadow-sm'); },
+            function () { $(this).removeClass('shadow-sm'); }
+        );
+    });
+</script>

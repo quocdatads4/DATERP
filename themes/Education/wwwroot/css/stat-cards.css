@@ -1,0 +1,142 @@
+/* ============================================
+   Stats Cards - Standard Design (from Admin Table)
+   ============================================ */
+.stats-card {
+    background: #fff;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card-body {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+}
+
+.stats-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.stats-info {
+    flex: 1;
+}
+
+.stats-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stats-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: #333;
+}
+
+/* Stats Color Variants (Standard) */
+.stats-card-primary .stats-icon {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.stats-card-success .stats-icon {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.stats-card-warning .stats-icon {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.stats-card-info .stats-icon {
+    background: rgba(6, 182, 212, 0.1);
+    color: #06b6d4;
+}
+
+.stats-card-danger .stats-icon {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+/* ============================================
+   New Stats Card Design (Solid Color Layout)
+   Used in _StatCard.cshtml
+   ============================================ */
+.card-stat-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: #fff !important;
+}
+
+.card-stat-success {
+    background-color: var(--edu-secondary, #22C55E) !important;
+    color: #fff !important;
+}
+
+.card-stat-danger {
+    background-color: var(--edu-warning, #EF4444) !important;
+    color: #fff !important;
+}
+
+.card-stat-warning {
+    background-color: var(--edu-accent-dark, #F59E0B) !important;
+    color: #fff !important;
+}
+
+.card-stat-info {
+    background-color: var(--edu-primary-dark, #002244) !important;
+    color: #fff !important;
+}
+
+/* Avatar Styles (Used in New Stats Card) */
+.avatar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    border-radius: 0.375rem;
+}
+
+.avatar-initial {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.35);
+    border-radius: inherit;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Override vendor avatar styles specifically for stat cards */
+.card-stat-primary .avatar .avatar-initial,
+.card-stat-success .avatar .avatar-initial,
+.card-stat-danger .avatar .avatar-initial,
+.card-stat-warning .avatar .avatar-initial,
+.card-stat-info .avatar .avatar-initial {
+    background-color: rgba(255, 255, 255, 0.35) !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}

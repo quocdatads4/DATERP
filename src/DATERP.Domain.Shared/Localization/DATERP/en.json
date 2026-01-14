@@ -1,0 +1,19 @@
+{
+  "culture": "en",
+  "texts": {
+    "Menu:Home": "Home",
+    "Welcome": "Welcome",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit abp.io.",
+    "ExamSubject": "Exam Subject",
+    "ErrorLoadingData": "Error loading data",
+    "ErrorDeletingData": "Error deleting data",
+    "SubjectName": "Subject Name",
+    "SubjectCode": "Subject Code",
+    "CreationTime": "Creation Time",
+    "Actions": "Actions",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "SubjectDeletionConfirmationMessage": "Are you sure you want to delete the exam subject",
+    "SuccessfullyDeleted": "Successfully deleted."
+  }
+}

@@ -1,0 +1,100 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using Volo.Abp.Identity.Localization
+@using Volo.Abp.Identity.Web.Pages.Identity.Roles
+@using Volo.Abp.Localization
+@using Volo.Abp.ObjectExtending
+@using Volo.Abp.Data
+@model EditModalModel
+@inject IHtmlLocalizer<IdentityResource> L
+@inject IStringLocalizerFactory StringLocalizerFactory
+@{
+    Layout = null;
+}
+<abp-modal size="Large">
+    <form method="post" asp-page="/Identity/Roles/EditModal">
+        <div class="modal-header">
+            <h5 class="modal-title"><i class="ti ti-edit me-1"></i> @L["Edit"]</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <input asp-for="Role.Id" type="hidden" />
+                <input asp-for="Role.ConcurrencyStamp" type="hidden" />
+
+                <div class="col-12 mb-3">
+                    <label asp-for="Role.Name" class="form-label">@L["RoleName"] *</label>
+                    <div class="input-group input-group-merge">
+                        <span class="input-group-text"><i class="ti ti-id"></i></span>
+                        @if (Model.Role.IsStatic)
+                        {
+                            <input type="text" class="form-control" asp-for="Role.Name" readonly="readonly" />
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control" asp-for="Role.Name" />
+                        }
+                    </div>
+                    <span asp-validation-for="Role.Name" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" asp-for="Role.IsDefault" />
+                        <label class="form-check-label" asp-for="Role.IsDefault">
+                            @L["DisplayName:IsDefault"]
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" asp-for="Role.IsPublic" />
+                        <label class="form-check-label" asp-for="Role.IsPublic">
+                            @L["DisplayName:IsPublic"]
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Extra Properties -->
+                @foreach (var propertyInfo in await
+                                ObjectExtensionManager.Instance.GetPropertiesAndCheckPolicyAsync<EditModalModel.RoleInfoModel>(HttpContext.RequestServices))
+                {
+                    if (!propertyInfo.Name.EndsWith("_Text"))
+                    {
+                        <div class="col-12 mt-3">
+                            @if (propertyInfo.IsEnum() || !propertyInfo.Lookup.Url.IsNullOrEmpty())
+                            {
+                                if (propertyInfo.IsEnum())
+                                {
+                                    Model.Role.ExtraProperties.ToEnum(propertyInfo.Name, propertyInfo.Type);
+                                }
+                                <abp-select asp-for="Role.ExtraProperties[propertyInfo.Name]"
+                                    enum-type="@propertyInfo.IsEnum() ? propertyInfo.Type : null"
+                                    label="@propertyInfo.GetLocalizedDisplayName(StringLocalizerFactory)"
+                                    autocomplete-api-url="@propertyInfo.Lookup.Url"
+                                    autocomplete-selected-item-name="@Model.Role.GetProperty(propertyInfo.Name + "_Text")"
+                                    autocomplete-selected-item-value="@Model.Role.GetProperty(propertyInfo.Name)"
+                                    autocomplete-filter-param-name="@propertyInfo.Lookup.FilterParamName"
+                                    autocomplete-items-property-name="@propertyInfo.Lookup.ResultListPropertyName"
+                                    autocomplete-display-property-name="@propertyInfo.Lookup.DisplayPropertyName"
+                                    autocomplete-value-property-name="@propertyInfo.Lookup.ValuePropertyName"></abp-select>
+                            }
+                            else
+                            {
+                                <abp-input type="@propertyInfo.GetInputType()" asp-for="Role.ExtraProperties[propertyInfo.Name]"
+                                    label="@propertyInfo.GetLocalizedDisplayName(StringLocalizerFactory)"
+                                    asp-format="@propertyInfo.GetInputFormatOrNull()"
+                                    value="@propertyInfo.GetInputValueOrNull(Model.Role.GetProperty(propertyInfo.Name))" />
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="ti ti-x me-1"></i>
+                @L["Cancel"]</button>
+            <button type="submit" class="btn btn-primary"><i class="ti ti-device-floppy me-1"></i> @L["Save"]</button>
+        </div>
+    </form>
+</abp-modal>

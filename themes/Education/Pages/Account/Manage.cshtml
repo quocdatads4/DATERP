@@ -1,0 +1,171 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@inject IThemeManager ThemeManager
+@inject IHtmlLocalizer<AccountResource> L
+@inject IPageLayout PageLayout
+@model Education.Pages.Account.ManageModel
+@{
+    Layout = ThemeManager.CurrentTheme.GetAccountLayout();
+}
+
+<div class="abp-account-container">
+    <link href="/_content/Education/css/account/manage.css" rel="stylesheet" />
+
+    <div class="col-md-12">
+        @* Navigation Tabs *@
+        <div class="nav-align-top">
+            <ul class="nav nav-pills flex-column flex-md-row mb-4 gap-md-0 gap-2" id="accountTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="personal-tab" data-bs-toggle="tab" href="#personal-info" role="tab">
+                        <i class="ti ti-user me-1"></i> Thông tin cá nhân
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="security-tab" data-bs-toggle="tab" href="#security-info" role="tab">
+                        <i class="ti ti-lock me-1"></i> Bảo mật
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        @* Tab Content *@
+        <div class="tab-content" id="accountTabsContent">
+            @* Personal Info Tab *@
+            <div class="tab-pane fade show active" id="personal-info" role="tabpanel">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start align-items-sm-center gap-4 mb-4">
+                            <img src="/_content/Education/img/avatars/default-avatar.png" alt="Avatar"
+                                class="d-block rounded" style="width: 100px; height: 100px; object-fit: cover;"
+                                id="uploadedAvatar" />
+                            <div class="button-wrapper">
+                                <label for="avatarUpload" class="btn btn-primary me-2 mb-3" tabindex="0">
+                                    <span class="d-none d-sm-block"><i class="ti ti-upload me-1"></i>Tải ảnh mới</span>
+                                    <i class="ti ti-upload d-block d-sm-none"></i>
+                                    <input type="file" id="avatarUpload" class="account-file-input" hidden
+                                        accept="image/png, image/jpeg" />
+                                </label>
+                                <button type="button" class="btn btn-label-secondary mb-3" id="resetAvatar">
+                                    <i class="ti ti-refresh d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Đặt lại</span>
+                                </button>
+                                <div class="text-muted small">Cho phép JPG hoặc PNG. Tối đa 800KB</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body pt-0">
+                        <form id="formPersonalInfo" method="post">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="userName" class="form-label">Tên đăng nhập</label>
+                                    <div class="input-group input-group-merge">
+                                        <span class="input-group-text"><i class="ti ti-at"></i></span>
+                                        <input type="text" class="form-control" id="userName"
+                                            asp-for="PersonalInfo.UserName" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email</label>
+                                    <div class="input-group input-group-merge">
+                                        <span class="input-group-text"><i class="ti ti-mail"></i></span>
+                                        <input type="email" class="form-control" id="email" asp-for="PersonalInfo.Email"
+                                            readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label">Họ và tên</label>
+                                    <div class="input-group input-group-merge">
+                                        <span class="input-group-text"><i class="ti ti-user"></i></span>
+                                        <input type="text" class="form-control" id="name" asp-for="PersonalInfo.Name"
+                                            placeholder="Nhập họ và tên" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phoneNumber" class="form-label">Số điện thoại</label>
+                                    <div class="input-group input-group-merge">
+                                        <span class="input-group-text"><i class="ti ti-phone"></i></span>
+                                        <input type="tel" class="form-control" id="phoneNumber"
+                                            asp-for="PersonalInfo.PhoneNumber" placeholder="Nhập số điện thoại" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <i class="ti ti-device-floppy me-1"></i>Lưu thay đổi
+                                </button>
+                                <button type="reset" class="btn btn-label-secondary">
+                                    <i class="ti ti-x me-1"></i>Hủy bỏ
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            @* Security Tab *@
+            <div class="tab-pane fade" id="security-info" role="tabpanel">
+                <div class="card mb-4">
+                    <div class="card-header d-flex align-items-center">
+                        <h5 class="mb-0"><i class="ti ti-key me-2"></i>Đổi mật khẩu</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="formChangePassword" method="post" asp-page-handler="ChangePassword">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
+                                    <div class="input-group input-group-merge">
+                                        <span class="input-group-text"><i class="ti ti-lock"></i></span>
+                                        <input type="password" class="form-control" id="currentPassword"
+                                            asp-for="ChangePassword.CurrentPassword" placeholder="••••••••" />
+                                        <span class="input-group-text cursor-pointer toggle-password">
+                                            <i class="ti ti-eye-off"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <label for="newPassword" class="form-label">Mật khẩu mới</label>
+                                    <div class="input-group input-group-merge">
+                                        <span class="input-group-text"><i class="ti ti-lock"></i></span>
+                                        <input type="password" class="form-control" id="newPassword"
+                                            asp-for="ChangePassword.NewPassword" placeholder="••••••••" />
+                                        <span class="input-group-text cursor-pointer toggle-password">
+                                            <i class="ti ti-eye-off"></i>
+                                        </span>
+                                    </div>
+                                    <div class="form-text">Mật khẩu phải có ít nhất 6 ký tự</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="confirmPassword" class="form-label">Xác nhận mật khẩu mới</label>
+                                    <div class="input-group input-group-merge">
+                                        <span class="input-group-text"><i class="ti ti-lock-check"></i></span>
+                                        <input type="password" class="form-control" id="confirmPassword"
+                                            asp-for="ChangePassword.ConfirmPassword" placeholder="••••••••" />
+                                        <span class="input-group-text cursor-pointer toggle-password">
+                                            <i class="ti ti-eye-off"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <i class="ti ti-device-floppy me-1"></i>Đổi mật khẩu
+                                </button>
+                                <button type="reset" class="btn btn-label-secondary">
+                                    <i class="ti ti-x me-1"></i>Hủy bỏ
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

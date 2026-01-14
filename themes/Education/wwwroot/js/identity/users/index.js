@@ -124,14 +124,79 @@ document.addEventListener('DOMContentLoaded', function () {
             // --- DataTables Initialization ---
             try {
                 _dataTable = _$wrapper.DataTable({
-                    order: [[0, "asc"]],
+                    order: [[1, "desc"]], // Sort by CreationTime by default
                     processing: true,
                     serverSide: true,
                     scrollX: false,
                     paging: true,
                     searching: true,
                     ajax: abp.libs.datatables.createAjax(_identityUserService.getList),
-                    columns: columnDefs,
+                    columns: [
+                        {
+                            title: 'Thông tin người dùng',
+                            data: 'userName',
+                            render: function (data, type, row) {
+                                var avatarUrl = 'https://ui-avatars.com/api/?name=' + row.userName + '&background=random&color=fff';
+                                return `
+                                    <div class="d-flex justify-content-start align-items-center user-name">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar avatar-sm me-3">
+                                                <img src="${avatarUrl}" alt="Avatar" class="rounded-circle">
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <a href="javascript:;" class="text-body text-truncate"><span class="fw-semibold">${row.userName}</span></a>
+                                            <small class="text-muted">${row.email}</small>
+                                        </div>
+                                    </div>`;
+                            }
+                        },
+                        {
+                            title: 'Số điện thoại',
+                            data: 'phoneNumber',
+                            render: function (data) {
+                                return data ? data : '<span class="text-muted">_</span>';
+                            }
+                        },
+                        {
+                            title: 'Vai trò',
+                            data: null,
+                            render: function (data, type, row) {
+                                var roles = row.roleNames || [];
+                                if (roles.length === 0) {
+                                    return '<span class="text-muted">_</span>';
+                                }
+                                return roles.map(function (role) {
+                                    var badgeClass = 'bg-label-primary';
+                                    var lowerRole = role.toLowerCase();
+                                    if (lowerRole.includes('admin')) badgeClass = 'bg-label-danger';
+                                    else if (lowerRole.includes('teacher')) badgeClass = 'bg-label-success';
+                                    else if (lowerRole.includes('student')) badgeClass = 'bg-label-info';
+
+                                    return '<span class="badge ' + badgeClass + ' me-1">' + role + '</span>';
+                                }).join('');
+                            }
+                        },
+                        {
+                            title: 'Ngày tham gia',
+                            data: 'creationTime',
+                            render: function (data) {
+                                return data ? new Date(data).toLocaleDateString('vi-VN') : '';
+                            }
+                        },
+                        {
+                            title: 'Thao tác',
+                            data: null,
+                            orderable: false,
+                            className: 'text-center',
+                            render: function (data, type, row) {
+                                return '<div class="d-flex gap-2 justify-content-center">' +
+                                    '<button class="btn btn-sm btn-label-primary edit-user-button" data-id="' + row.id + '"><i class="ti ti-edit me-1"></i> Sửa</button>' +
+                                    '<button class="btn btn-sm btn-label-danger delete-user-button" data-id="' + row.id + '" data-username="' + row.userName + '"><i class="ti ti-trash me-1"></i> Xóa</button>' +
+                                    '</div>';
+                            }
+                        }
+                    ],
                     dom: '<"table-responsive"t><"dataTable_footer"<"footer-left"l><"footer-right"p>>',
                     language: {
                         processing: "Đang tải dữ liệu...",

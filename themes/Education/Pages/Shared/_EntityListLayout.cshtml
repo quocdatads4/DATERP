@@ -1,0 +1,46 @@
+@model Education.Models.EntityListViewModel
+
+<div id="@(Model.TableId)PageContainer">
+    <!-- Stats Row -->
+    @if (Model.Stats != null && Model.Stats.Any())
+    {
+        <div class="row mb-4">
+            @foreach (var stat in Model.Stats)
+            {
+                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                    <div class="card h-100 border-0 shadow-none bg-transparent">
+                        <div class="card-body d-flex align-items-center p-3 bg-white rounded-3 shadow-sm border">
+                            <div class="avatar avatar-lg me-3">
+                                <span class="avatar-initial rounded-circle bg-label-@stat.ColorClass">
+                                    <i class="@stat.Icon fs-2"></i>
+                                </span>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">@stat.Title</h5>
+                                <h2 class="mb-0 fw-bold">@stat.Value</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Main Table Card -->
+    <div class="card">
+        <div class="card-header border-bottom d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <i class="ti ti-category-2 me-2 fs-4 text-primary"></i>
+                <h5 class="card-title m-0 me-2">@Model.Title</h5>
+            </div>
+            <div>
+                 <button id="@Model.CreateButtonId" class="btn btn-primary btn-sm">
+                    <i class="@Model.CreateButtonIcon me-1"></i> @Model.CreateButtonText
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <abp-table striped-rows="true" id="@Model.TableId" class="table border-top nowrap"></abp-table>
+        </div>
+    </div>
+</div>

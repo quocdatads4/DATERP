@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DATERP.Domain\DATERP.Domain.csproj" />
+    <ProjectReference Include="..\..\modules\Examination\src\DATERP.Examination.EntityFrameworkCore\DATERP.Examination.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -17,6 +17,7 @@
 }
 
 @section styles {
+    <link rel="stylesheet" href="/themes/education/css/stat-cards.css" />
     <link rel="stylesheet" href="/themes/education/css/identity/users/index.css" />
 }
 
@@ -26,84 +27,37 @@
 }
 
 @* Thẻ thống kê *@
-<div class="row mb-4">
-    <div class="col-sm-6 col-xl-3">
-        <div class="card card-stat-primary">
-            <div class="card-body">
-                <div class="d-flex align-items-start justify-content-between">
-                    <div class="content-left">
-                        <span class="text-white opacity-75">Tổng số người dùng</span>
-                        <div class="d-flex align-items-center my-1">
-                            <h4 class="mb-0 me-2 text-white">@Model.TotalUsers</h4>
-                        </div>
-                    </div>
-                    <div class="avatar">
-                        <span class="avatar-initial rounded">
-                            <i class="ti ti-users"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-xl-3">
-        <div class="card card-stat-success">
-            <div class="card-body">
-                <div class="d-flex align-items-start justify-content-between">
-                    <div class="content-left">
-                        <span class="text-white opacity-75">Đang hoạt động</span>
-                        <div class="d-flex align-items-center my-1">
-                            <h4 class="mb-0 me-2 text-white">@Model.ActiveUsers</h4>
-                        </div>
-                    </div>
-                    <div class="avatar">
-                        <span class="avatar-initial rounded">
-                            <i class="ti ti-user-check"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-xl-3">
-        <div class="card card-stat-danger">
-            <div class="card-body">
-                <div class="d-flex align-items-start justify-content-between">
-                    <div class="content-left">
-                        <span class="text-white opacity-75">Ngừng hoạt động</span>
-                        <div class="d-flex align-items-center my-1">
-                            <h4 class="mb-0 me-2 text-white">@Model.InactiveUsers</h4>
-                        </div>
-                    </div>
-                    <div class="avatar">
-                        <span class="avatar-initial rounded">
-                            <i class="ti ti-user-x"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-xl-3">
-        <div class="card card-stat-warning">
-            <div class="card-body">
-                <div class="d-flex align-items-start justify-content-between">
-                    <div class="content-left">
-                        <span class="text-white opacity-75">Chờ xác nhận</span>
-                        <div class="d-flex align-items-center my-1">
-                            <h4 class="mb-0 me-2 text-white">0</h4>
-                        </div>
-                    </div>
-                    <div class="avatar">
-                        <span class="avatar-initial rounded">
-                            <i class="ti ti-clock"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@* Thẻ thống kê *@
+@{
+    var stats = new List<Education.Models.StatCardModel>
+{
+new Education.Models.StatCardModel {
+Title = "Tổng số người dùng",
+Value = Model.TotalUsers.ToString(),
+Icon = "ti ti-users",
+ColorClass = "primary"
+},
+new Education.Models.StatCardModel {
+Title = "Đang hoạt động",
+Value = Model.ActiveUsers.ToString(),
+Icon = "ti ti-user-check",
+ColorClass = "success"
+},
+new Education.Models.StatCardModel {
+Title = "Ngừng hoạt động",
+Value = Model.InactiveUsers.ToString(),
+Icon = "ti ti-user-x",
+ColorClass = "danger"
+},
+new Education.Models.StatCardModel {
+Title = "Chờ xác nhận",
+Value = "0",
+Icon = "ti ti-clock",
+ColorClass = "warning"
+}
+};
+}
+@await Html.PartialAsync("~/Pages/Shared/_StatCards.cshtml", stats)
 
 @* Bảng danh sách người dùng *@
 <div class="card" id="IdentityUsersWrapper">

@@ -1,0 +1,26 @@
+@using DATERP.Examination.Web.Pages.Examination.ExamSubjects
+@using DATERP.Examination.Localization
+@using Education.Models
+@model IndexModel
+@inject Microsoft.Extensions.Localization.IStringLocalizer<ExaminationResource> L
+
+@await Html.PartialAsync("~/Pages/Shared/_AdminTable.cshtml", new AdminTableViewModel {
+Title = @L["ExamSubjects"].Value,
+Icon = "ti ti-category-2",
+TableId = "ExamSubjectsTable",
+CreateButtonId = "NewExamSubjectButton",
+CreateButtonText = @L["NewExamSubject"].Value,
+CreateButtonIcon = "ti ti-plus",
+ShowSearchBar = true,
+SearchPlaceholder = @L["Search"].Value + "...",
+Stats = new List<Education.Models.StatCardModel>
+{
+new Education.Models.StatCardModel { Title = "Tổng số môn thi", Value = "3", Icon = "ti ti-users", ColorClass =
+"primary" },
+new Education.Models.StatCardModel { Title = "Đang hoạt động", Value = "3", Icon = "ti ti-user-check", ColorClass =
+"success" },
+new Education.Models.StatCardModel { Title = "Ngừng hoạt động", Value = "0", Icon = "ti ti-user-x", ColorClass =
+"danger" },
+new Education.Models.StatCardModel { Title = "Chờ xác nhận", Value = "0", Icon = "ti ti-clock", ColorClass = "warning" }
+}
+})

@@ -6,6 +6,7 @@ using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.SettingManagement;
+using DATERP.Examination;
 
 namespace DATERP;
 
@@ -17,7 +18,8 @@ namespace DATERP;
     typeof(AbpIdentityDomainModule),
     typeof(AbpTenantManagementDomainModule),
     typeof(AbpPermissionManagementDomainIdentityModule),
-    typeof(AbpSettingManagementDomainModule)
+    typeof(AbpSettingManagementDomainModule),
+    typeof(ExaminationDomainModule)
     )]
 public class DATERPDomainModule : AbpModule
 {
